@@ -4,52 +4,72 @@ description: This section describes the body encoding inside IOTMP
 
 # Message Body
 
-The body is composed on a variable number of fields. Each field is encoded as a key-value pair, where the key field specifies the value type and the field identifier. The value 
+Each IOTMP message is basically a a series of key-value pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
 
-
+So, the message body is composed of a variable number of fields, each one with a key-value pair:
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
 | Key | Varint | Specifies the field identifier and the value type. |
 | Value | Variable | The field value uses to contain integers or documents formated with JSON or other binary representations. |
 
-## Field Identifier
+## Field Key
 
-Each body field requires a field identifier that is encoded using the Varint type. The field identifier
+Each key in the message is a varint that encondes both the field identifier, and the field type. The field type is called the wire type, and specifies how the value is encoded over the wire. The field identifier represents just the field for each specific message.
 
-\[1-bit\]\[3-bit wire type\]\[4-bit field\]
+```text
+[1-bit] [3-bit with wire type] [4-bit field identifier]
+```
+
+The following wire types are supported inside IOTMP: 
 
 ### Wire Type
 
-| Type | Value | Description |
+| Type | Value | Used For |
 | :--- | :--- | :--- |
-| Varint | 0x00 | Specifies that the value is a Varint |
-| Fixed 64 | 0x01 | Specifies that the value is fixed 64 bits |
-| Length Delimited | 0x02 | Specifies that the value is length-delimited |
-| Message Pack | 0x03 | Specifies that the value is using MessagePack encoding |
-| UBJSON | 0x04 | Specifies that the value is using UBJSON encoding |
+| Varint | 0x00 | int32, int64, uint32, uint64, sint32, sint64, bool, enum |
+| Fixed 64 | 0x01 | fixed64, sfixed64, double |
+| Length Delimited | 0x02 | string, bytes, embedded messages |
 | Fixed 32 | 0x05 | Specifies that the value is fixed 32 bits |
 | PSON | 0x06 | Specifies that the value is using PSON encoding |
-| JSON | 0X07 | Specifies that the value is using JSON encoding |
-| CBOR | 0x08 | Specifies that the value is using CBOR encoding |
 
-#### Varint
+### Field Identifier
 
-#### Fixed 64
-
-#### Lenght delimited
-
-#### Message Pack
-
-#### UBJSON
-
-#### Fixed 32
-
-#### PSON
-
-#### JSON
-
-#### CBOR
+The field identifier depends on each message, and can represent values like credentials, resource identifier, payloads, etc. So, each message specifies their own message identifiers, as described [here](messages/).
 
 ## Field Value
+
+Each 
+
+### Varint
+
+A varint value is a variable integer, as defined [here](definitions.md#varint).
+
+### Fixed 64
+
+A fixed 64 value is a field with fixed 64 bits \(8 bytes\).
+
+### Length delimited
+
+A length-delimited field contains a varint that specifies the number of bytes of the value, and the corresponding sequence of bytes. This field type is used for storing values with encoders like MessagePack, UBJSON, CBOR, JSON, or any other encoding mechanishm defined.
+
+```text
+[varint with payload size][payload with specified length]
+```
+
+### Fixed 32
+
+A fixed 32 value is a field with fixed 32 bits \(4 bytes\).
+
+```text
+[byte1 byte2 byte3 byte4]
+```
+
+### PSON
+
+A PSON field contains a varint that specifies the number of bytes of the value, and the corresponding sequence of bytes encoded with UBJSON.
+
+```text
+[PSON Payload]
+```
 
