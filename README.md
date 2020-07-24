@@ -1,2 +1,2 @@
-# IOTMP
-Internet of Things Message Protocol
+# Initial page
+
