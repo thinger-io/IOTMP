@@ -39,7 +39,7 @@ The field identifier depends on each message, and can represent values like cred
 
 ## Field Value
 
-Each 
+Each field with a key has an associated value that can be encoded in different formats.
 
 ### Varint
 
@@ -51,7 +51,7 @@ A fixed 64 value is a field with fixed 64 bits \(8 bytes\).
 
 ### Length delimited
 
-A length-delimited field contains a varint that specifies the number of bytes of the value, and the corresponding sequence of bytes. This field type is used for storing values with encoders like MessagePack, UBJSON, CBOR, JSON, or any other encoding mechanishm defined.
+A length-delimited field contains a varint that specifies the number of bytes of the value, and the corresponding sequence of bytes. This field type is used for values with different encoders like MessagePack, UBJSON, CBOR, JSON, or any other encoding mechanishm that wants to be used.
 
 ```text
 [varint with payload size][payload with specified length]
@@ -67,7 +67,7 @@ A fixed 32 value is a field with fixed 32 bits \(4 bytes\).
 
 ### PSON
 
-A PSON field contains a varint that specifies the number of bytes of the value, and the corresponding sequence of bytes encoded with UBJSON.
+A [PSON ](definitions.md#pson)value 
 
 ```text
 [PSON Payload]

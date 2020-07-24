@@ -16,7 +16,7 @@
 | Error | 0x02 | Error on request |
 | Keep Alive | 0x03 | Keep connection alive |
 | Run | 0x04 | Execute a resource or a broker action |
-| Start Stream | 0x05 | Start stream channel for sampling interval or receive events |
+| Start Stream | 0x05 | Start stream channel for sampling interval or receive events over a resource. |
 | Stop Stream | 0x06 | Stop the ongoing stream |
 | Describe | 0x07 | Describe available resources |
 | Connect | 0x08 | Establish a connection and its parameters |

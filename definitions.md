@@ -36,9 +36,19 @@ You reverse the two groups of 7 bits because, as you remember, varints store num
 
 ## PSON
 
-Protoson \(PSON\) is a method for encoding and decoding unstructured data in a binary format.
+Protoson \([PSON](https://github.com/thinger-io/Protoson)\) is a method for encoding and decoding unstructured data in a binary format designed by [Thinger.io](https://thinger.io) specially for the IOT. Similar to JSON but fast and small. PSON is based on the Protocol Buffers encoding techniques, so it can achieve very small payloads over the wire, simplifying also the parsing and encoding processes. The [reference library](https://github.com/thinger-io/Protoson) done in C++ was designed with the following goals:
 
- Similar to JSON but fast and small. Protoson is based on some Protocol Buffers encoding techniques.
+* **Small compiled code size**. The library has mainly designed for microcontrollers or devices with very limited resources. The whole library with encoding and decoding support takes less than 3.5KB on an Arduino. It does not require the Standard Template Library \(STL\).
+* **Custom memory allocators**. Protoson C++ can use different memory allocations approaches. Currently there are implemented a circular, and a dynamic memory allocator.
+* **Small output**. The output size is comparable to the well-known [MessagePack](http://msgpack.org/). Depending on the encoded data it can be even smaller.
+
+PSON is the perfect fit for IOTMP as it shares the same encoding techniques used in [varints](definitions.md#varint), or [field keys](message-body.md#field-key) used on the IOTMP protocol, so it can minimize the overall firmware size. However, IOTMP does not restrict the encoding techniques, so clients can use any other standard library like CBOR, or MessagePack.
+
+## Resources
+
+### Device Resources
+
+
 
 
 
