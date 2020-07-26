@@ -6,17 +6,7 @@ description: >-
 
 # Start Stream
 
-The [Run ](../run.md)message is perfectly suited for request/response paradigms. Those messages allows to send a request and receive a response. This is quite useful for sending a request to a device, i.e., to turn on a light, or to query the current power consumption. However, this approach is not optimized if it is necessary a long-lived monitoring over a resource. For example, monitoring every few seconds the temperature and humidity. In this case, a constant polling to the device is not efficient.
-
-To solve this problem, there are other protocols like MQTT where the devices just transmit the information periodically to the broker, and then this information is stored or shown in dashboards. However, this approach is not optimal, as it is assuming that the transferred information will be used somewhere. It does not take into account if the information really requires to be transmitted, i.e., there is an user viewing the dashboard, or there is a data sink storing the information. In large projects, for sure there are several topics and information that is going to nowhere.
-
-This is where the `Start Stream` comes into play. It enables an endpoint, i.e., the server, to subscribe to a device resource. This way, the server proactively subscribes to device resources if it is necessary. The subscription can be periodical, or just triggered as required \(i.e., an event detected by the device\). In this approach, the target resource is not streamed by default, unless there is a source requesting a streaming, i.e., a user just opened a dashboard or a mobile application, or the server defined a data sink to store the information. It adds extra complexity at the server, but optimizes how the resources are streamed, saving bandwidth and scaling easily under some circumstances.
-
-{% hint style="info" %}
-**TL;DR**: Allows to request a periodical resource streaming, both at a fixed interval or by events.
-{% endhint %}
-
-## Message
+## Request
 
 Here it is defined the message to be sent to start a stream, usually from the server to the client.
 
@@ -35,12 +25,20 @@ Here it is defined the message to be sent to start a stream, usually from the se
 | **Resource**  | 0x02 |  | First Time | A string or array of strings with the resource identifier, i.e., "temperature". It is only mandatory the first time the stream is opened. Following Start Streams over the same Stream Id can be used fo reconfigure the interval, so it is not required to specify again the resource. |
 | **Interval** | 0x04 | varint | No | Sampling interval in seconds. If the field is not present or zero,  just allows the target resource to stream the resource as considered, i.e., when there is an event.  |
 
-## Responses
+### Example 
+
+TBD
+
+## Response
 
 | Message | Description |
 | :--- | :--- |
 | \*\*\*\*[**Ok**](../ok.md)\*\*\*\* | Should answer with an OK if it is able to stream the requested resource at the specified interval. It must contain the Stream Id specified in this message. |
 | \*\*\*\*[**Error**](../error.md)\*\*\*\* | Should answer with an Error if the target resource cannot be streamed at the specified interval. It must contain the Stream Id specified in this message. |
+
+### Example
+
+TBD
 
 ## Stream Messages
 
@@ -53,7 +51,51 @@ Here it is defined the message to be sent to start a stream, usually from the se
 
 ## Client Implementation notes
 
+### Resource definition
 
+A resource to be used in a stream should be defined in the same way to a normal resource that can be executed over the [Run ](../run.md)message, i.e., a resource defined with the [Thinger.io Arduino Library](https://github.com/thinger-io/Arduino-Library) can be defined as the following:
+
+```cpp
+void setup(){
+  thing["heading"] >> [](pson& out){     
+    out = getHeading();
+  };
+}
+```
+
+Internally, the client should keep information about each resource state, i.e., the associated stream identifier \(if any\), and the latest stream timestamp.
+
+{% hint style="info" %}
+From the perspective of a developer creating a firmware, streams should be completely transparent to the resource definition.
+{% endhint %}
+
+### Streaming with a Sampling interval
+
+When a `Start Stream` message is received with a sampling interval, the client should look for the requested resource, and then adjust the `Stream Identifier` and the expected timestamp. In each loop, it should check all the enabled streams, and then transmit those which are required according to its timestamp and sampling interval. If a following `Start Stream` is received for the same resource, it must overwrite it, that is, update its interval, or change the Stream Identifier if necessary \(depending if the message comes only with Stream Id or Stream Id and Resource\).
+
+### Streaming Events
+
+To send events over a stream, it is usually required to detect the event or the change. It is completely dependent on the use case, so, the firmware must be prepared to detect and transmit the information when it is required. In the following example, the same `heading` resource defined before is transmitted if it is detected an angle difference greater than one degree. To to this, the [Thinger.io Arduino Library](https://github.com/thinger-io/Arduino-Library) defines a method to stream a given resource. This method should take into account if this resource Stream is enabled, that is, it contains a `Stream Identifier`, otherwise the message must not be sent \(as there is no anyone listening for it\).
+
+```cpp
+void setup(){
+  thing["heading"] >> [](pson& out){     
+    out = getHeading();
+  };
+}
+
+float previousHeading = 0;
+void loop() {
+  thing.handle();
+  float currentHeading = getHeading();
+  if(abs(currentHeading-previousHeading)>=1.0f){
+    thing.stream("heading");
+    previousHeading=currentHeading;
+  }
+}
+```
+
+![Example ESP8266 running IOTMP for sending heading when there is a subtle difference.](../../.gitbook/assets/image%20%283%29.png)
 
 ## Server Implementation notes
 
