@@ -49,17 +49,52 @@ This is where the `Start Stream` comes into play. It enables an endpoint, i.e., 
 | \*\*\*\*[**Stop Stream**](stop-stream.md)\*\*\*\* | A `Stop Stream` can be sent anytime during the stream life-time to conclude the streaming. |
 | \*\*\*\*[**Start Stream**](start-stream.md)\*\*\*\* | A `Start Stream` can be sent anytime by the requester to reconfigure the sampling interval. In such case, should send only the Stream Identifier and the new Interval. |
 
+## Client Implementation notes
+
+
+
 ## Server Implementation notes
 
-### HTTP/REST API/MQTT
+### HTTP/REST API Integration
 
-A typical scenario where a `Start Stream` is required is when there is opened a Websocket or Server Sent Event over the server to start listening over a resource information. For example, in Thinger.io, a resource URL is defined as follow:
+As described before, a typical scenario where a `Start Stream` is required is when a new `Websocket`or `Server Sent Event` is opened over the server to start listening over a resource, for example, to feed a real-time dashboard. In [Thinger.io](https://Thinger.io) implementation, a device resource endpoint is defined as follow:
 
 ```text
-https://backend.thinger.io/v3/users/alvarolb/devices/smart_irrigation/resources/temp
+https://.../v3/users/alvarolb/devices/smart_irrigation/resources/temp
 ```
 
-### 
+In such implementation it is possible to open a `Websocket` over the resource, so the endpoint is now:
+
+```text
+wss://.../v3/users/alvarolb/devices/smart_irrigation/resources/temp
+```
+
+Opening such `Websocket` will listen for events on the `temp` resource, that is, changes that are detected by device and transmitted to the `Websocket`. But it is possible to open also the resource as following:
+
+```text
+wss://.../v3/users/alvarolb/devices/smart_irrigation/resources/temp?interval=5
+```
+
+In such case, the websocket will start receiving the information every 5 seconds. It is also possible to open more webscokets over the same resource.
+
+Moreover, it is possible to open a websocket over the following endpoint:
+
+```text
+wss://.../v3/users/alvarolb/devices/smart_irrigation/resources
+```
+
+And then transmit over the `Websocket` different frames with expected resources and their intervals:
+
+```text
+{"resource": "temp", "interval": 5, "enabled" : true}
+{"resource": "humidity", "interval": 5, "enabled" : true}
+```
+
+### MQTT Integration
+
+TBD
+
+devices/smart\_irrigation/resources/temp?interval=5
 
 ### Different streaming interval
 
