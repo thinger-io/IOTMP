@@ -20,6 +20,7 @@ The unique available field in the Error message is the stream id which represent
 | Field | Identifier | Type | Value |
 | :--- | :--- | :--- | :--- |
 | Stream Id | 0x01 | varint | The stream identifier that failed |
+| Payload | 0x03 |  | An optional payload if the request generates any result |
 
 ## Example
 

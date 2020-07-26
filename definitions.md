@@ -56,7 +56,7 @@ A "stream" is an independent, bidirectional sequence of messages exchanged betwe
 
 ## Resources
 
-Recurs
+
 
 
 

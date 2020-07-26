@@ -4,7 +4,7 @@ description: Message to run a resource in a device or in the broker
 
 # Run
 
-This method enables running remote [resources ](../definitions.md#resources)defined both in client and server. Resources are defined dynamically by clients and devices. As described in the [resources ](../definitions.md#resources)definition, a resource is basically like a function that can be executed like in RPC \(Remote Procedure Call\). As a "function" it can receive inputs, and provide an output.
+This message enables running remote [resources ](../definitions.md#resources)defined both in client and server. Resources are defined dynamically by clients and devices. As described in the [resources ](../definitions.md#resources)definition, a resource is basically like a function that can be executed like in RPC \(Remote Procedure Call\). As a "function" it can receive inputs, and provide an output. 
 
 A **device** can define multiple resources as required by its use case, i.e., read humidity, adjust temperature, turn on a light, etc.  Typical resources for an IoT device are functions for reading device states, sensor values, adjust parameters, or actuating over digital pins to mention a few.
 

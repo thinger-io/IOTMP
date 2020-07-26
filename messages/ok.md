@@ -20,6 +20,7 @@ The unique available field in the Ok message is the stream id which represents t
 | Field | Identifier | Type | Value |
 | :--- | :--- | :--- | :--- |
 | Stream Id | 0x01 | varint | The stream identifier that succeed |
+| Payload | 0x03 |  | An optional payload if the request generates any result |
 
 ## Example
 
