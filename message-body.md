@@ -4,7 +4,7 @@ description: This section describes the body encoding inside IOTMP
 
 # Message Body
 
-Each IOTMP message is basically a a series of key-value pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
+Each IOTMP message body is basically a a series of key-value pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
 
 So, the message body is composed of a variable number of fields, each one with a key-value pair:
 
@@ -72,4 +72,29 @@ A [PSON ](definitions.md#pson)value
 ```text
 [PSON Payload]
 ```
+
+## Predefined field identifiers
+
+There are some common reserved field identifiers.
+
+| Field | Field Key | Field Vaue | Description |
+| :--- | :--- | :--- | :--- |
+| Reserved | 0x00 | N/A | Reserved field identifier |
+| Stream Identifier | 0x01 | varint | uint16 with the stream identifier |
+| Resource Identifier | 0x02 | ~~length-delimited~~ | Identifies a resource |
+| Payoad | 0x03 | ~~length-delimited~~ | Represents the message payload |
+
+### Stream Identifier
+
+Streams are identified with an unsigned 16-bit integer. These identifiers are used basically to "map" requests with responses. 
+
+### Resource
+
+A resource identifier, represents, depending on the message type, a remote resource defined in the device. 
+
+### Payload
+
+The message paylaod 
+
+### 
 

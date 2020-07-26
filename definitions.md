@@ -44,11 +44,17 @@ Protoson \([PSON](https://github.com/thinger-io/Protoson)\) is a method for enco
 
 PSON is the perfect fit for IOTMP as it shares the same encoding techniques used in [varints](definitions.md#varint), or [field keys](message-body.md#field-key) used on the IOTMP protocol, so it can minimize the overall firmware size. However, IOTMP does not restrict the encoding techniques, so clients can use any other standard library like CBOR, or MessagePack.
 
+## Stream
+
+A "stream" is an independent, bidirectional sequence of messages exchanged between the client and server within an IOTMP connection. Streams have several important characteristics:
+
+* A single IOTMQ connection can contain multiple concurrently open streams, with either endpoint interleaving frames from multiple streams.
+* Streams can be established and used unilaterally or shared by either the client or server.
+* Streams can be closed by either endpoint, or closed automatically depending on the message type.
+* The order in which frames are sent on a stream is significant. Recipients process frames in the order they are received.
+* Streams are identified by an integer. Stream identifiers are assigned to streams by the endpoint initiating the stream.
+
 ## Resources
-
-### Device Resources
-
-
 
 
 
