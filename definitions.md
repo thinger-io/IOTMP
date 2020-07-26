@@ -42,7 +42,7 @@ Protoson \([PSON](https://github.com/thinger-io/Protoson)\) is a method for enco
 * **Custom memory allocators**. Protoson C++ can use different memory allocations approaches. Currently there are implemented a circular, and a dynamic memory allocator.
 * **Small output**. The output size is comparable to the well-known [MessagePack](http://msgpack.org/). Depending on the encoded data it can be even smaller.
 
-PSON is the perfect fit for IOTMP as it shares the same encoding techniques used in [varints](definitions.md#varint), or [field keys](message-body.md#field-key) used on the IOTMP protocol, so it can minimize the overall firmware size. However, IOTMP does not restrict the encoding techniques, so clients can use any other standard library like CBOR, or MessagePack.
+PSON is the perfect fit for IOTMP as it shares the same encoding techniques used in [varints](definitions.md#varint), or [field keys](message-structure/message-body.md#field-key) used on the IOTMP protocol, so it can minimize the overall firmware size. However, IOTMP does not restrict the encoding techniques, so clients can use any other standard library like CBOR, or MessagePack.
 
 ## Stream
 
