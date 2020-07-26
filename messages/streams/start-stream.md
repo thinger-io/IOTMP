@@ -10,13 +10,15 @@ The [Run ](../run.md)message is perfectly suited for request/response paradigms.
 
 To solve this problem, there are other protocols like MQTT where the devices just transmit the information periodically to the broker, and then this information is stored or shown in dashboards. However, this approach is not optimal, as it is assuming that the transferred information will be used somewhere. It does not take into account if the information really requires to be transmitted, i.e., there is an user viewing the dashboard, or there is a data sink storing the information. In large projects, for sure there are several topics and information that is going to nowhere.
 
-This is where the `Start Stream` comes into play. It enables an endpoint, i.e., the server, to subscribe to a device resource. This way, the server proactively subscribes to device resources if it is necessary. The subscription can be periodical, or just triggered as required \(i.e., an event detected by the device\). In this approach, the target resource is not streamed by default, unless there is a source requesting a streaming, i.e., a user just opened a dashboard, a mobile application, or the server defined a data sink to store the information. It adds extra complexity at the server, but optimizes how the resources are streamed, saving bandwidth and scaling easily under some circumstances.
+This is where the `Start Stream` comes into play. It enables an endpoint, i.e., the server, to subscribe to a device resource. This way, the server proactively subscribes to device resources if it is necessary. The subscription can be periodical, or just triggered as required \(i.e., an event detected by the device\). In this approach, the target resource is not streamed by default, unless there is a source requesting a streaming, i.e., a user just opened a dashboard or a mobile application, or the server defined a data sink to store the information. It adds extra complexity at the server, but optimizes how the resources are streamed, saving bandwidth and scaling easily under some circumstances.
 
 {% hint style="info" %}
 **TL;DR**: Allows to request a periodical resource streaming, both at a fixed interval or by events.
 {% endhint %}
 
 ## Message
+
+Here it is defined the message to be sent to start a stream, usually from the server to the client.
 
 ### Header
 
@@ -75,7 +77,7 @@ Opening such `Websocket` will listen for events on the `temp` resource, that is,
 wss://.../v3/users/alvarolb/devices/smart_irrigation/resources/temp?interval=5
 ```
 
-In such case, the websocket will start receiving the information every 5 seconds. It is also possible to open more webscokets over the same resource. Moreover, it is possible to open a websocket over the following endpoint:
+In such case, the `Websocket` will start receiving the information every 5 seconds. Moreover, it is possible to open an endpoint without defining a resource:
 
 ```text
 wss://.../v3/users/alvarolb/devices/smart_irrigation/resources
