@@ -4,7 +4,7 @@ description: This section describes the body encoding inside IOTMP
 
 # Message Body
 
-Each IOTMP message body is basically a a series of key-value pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
+Each IOTMP message body is basically a series of key-value pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
 
 So, the message body is composed of a variable number of fields, each one with a key-value pair:
 
@@ -29,9 +29,9 @@ The following wire types are supported inside IOTMP:
 | :--- | :--- | :--- |
 | Varint | 0x00 | int32, int64, uint32, uint64, sint32, sint64, bool, enum |
 | Fixed 64 | 0x01 | fixed64, sfixed64, double |
-| Length Delimited | 0x02 | string, bytes, embedded messages |
+| Length-Delimited | 0x02 | string, bytes, embedded custom data |
 | Fixed 32 | 0x05 | Specifies that the value is fixed 32 bits |
-| PSON | 0x06 | Specifies that the value is using PSON encoding |
+| Encoded | 0x06 | Indicates that the value is encoded as accorded in the Connect message |
 
 ### Field Identifier
 
@@ -65,13 +65,9 @@ A fixed 32 value is a field with fixed 32 bits \(4 bytes\).
 [byte1 byte2 byte3 byte4]
 ```
 
-### PSON
+### Encoded
 
-A [PSON ](definitions.md#pson)value 
-
-```text
-[PSON Payload]
-```
+TODO
 
 ## Predefined field identifiers
 
@@ -81,20 +77,36 @@ There are some common reserved field identifiers.
 | :--- | :--- | :--- | :--- |
 | Reserved | 0x00 | N/A | Reserved field identifier |
 | Stream Identifier | 0x01 | varint | uint16 with the stream identifier |
-| Resource Identifier | 0x02 | ~~length-delimited~~ | Identifies a resource |
-| Payoad | 0x03 | ~~length-delimited~~ | Represents the message payload |
+| Resource Identifier | 0x02 | Encoded | Identifies a resource, it is encoded as string or array of strings |
+| Payload | 0x03 | Encoded | Represents the message payload encoded in the agreed encoding method |
 
 ### Stream Identifier
 
 Streams are identified with an unsigned 16-bit integer. These identifiers are used basically to "map" requests with responses. 
 
-### Resource
+The stream identifier is represented over the wire as follows:
+
+```text
+hexa:   0x01
+binary: 0             000             0001
+desc:   varint-msb    varint-type     field
+```
+
+### Resource Identifier
 
 A resource identifier, represents, depending on the message type, a remote resource defined in the device. 
 
+The resourceidentifier is represented over the wire as follows:
+
+```text
+hexa:   0x02
+binary: 0             000             0001
+desc:   varint-msb    encoded-type    field
+```
+
 ### Payload
 
-The message paylaod 
+The message paylaod contains associated data to the request, i.e., the body associated to an HTTP request.
 
 ### 
 
