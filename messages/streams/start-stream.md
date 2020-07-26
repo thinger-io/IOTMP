@@ -75,9 +75,7 @@ Opening such `Websocket` will listen for events on the `temp` resource, that is,
 wss://.../v3/users/alvarolb/devices/smart_irrigation/resources/temp?interval=5
 ```
 
-In such case, the websocket will start receiving the information every 5 seconds. It is also possible to open more webscokets over the same resource.
-
-Moreover, it is possible to open a websocket over the following endpoint:
+In such case, the websocket will start receiving the information every 5 seconds. It is also possible to open more webscokets over the same resource. Moreover, it is possible to open a websocket over the following endpoint:
 
 ```text
 wss://.../v3/users/alvarolb/devices/smart_irrigation/resources
@@ -85,7 +83,7 @@ wss://.../v3/users/alvarolb/devices/smart_irrigation/resources
 
 And then transmit over the `Websocket` different frames with expected resources and their intervals:
 
-```text
+```javascript
 {"resource": "temp", "interval": 5, "enabled" : true}
 {"resource": "humidity", "interval": 5, "enabled" : true}
 ```
