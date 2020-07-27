@@ -1,29 +1,62 @@
 ---
-description: >-
-  Initiates a long-live stream for transmitting periodic data associated to a
-  resource.
+description: 'Message to establish, authenticate a negotiate connection parameters.'
 ---
 
-# Start Stream
+# Connect
 
 ## Request
 
-A start stream request is usually sent by the server to start receiving data from a connected client, i.e., when a stream is opened to consume the resource information \(a dashboard, mobile App, etc.\).
+A `Connect` message MUST be sent from the client to the server to authenticate and negotiate the connection parameters. This request should be the first one after establishing the connection. If any other message is received, the server MUST close the connection immediately.
 
 ### Header
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
-| **Message Type** | 0x05 | Start Stream |
+| **Message Type** | 0x08 | Connect |
 | **Message Size** | varint | Remaining Message Length |
 
 ### Body
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | varint | Yes | Stream identifier to be used within the stream life-time. |
-| **Resource**  | 0x02 |  | First Time | A string or array of strings with the resource identifier, i.e., "temperature". It is only mandatory the first time the stream is opened. Following Start Streams over the same Stream Id can be used fo reconfigure the interval, so it is not required to specify again the resource. |
-| **Interval** | 0x04 | varint | No | Sampling interval in seconds. If the field is not present or zero,  just allows the target resource to stream the resource as considered, i.e., when there is an event.  |
+| **Stream Id** | 0x01 | varint | Yes | Request Identifier. |
+| **Payload** | 0x03 |  | Yes | Data with the authentication values as defined by the Auth Type field. By default, the Auth Type is done using credentials, so the Payload MUST contain the username, device identifier, and credentials.  |
+| **Auth Type** | 0x04 | varint | No | Depending on the value, the authentication is done over different mechanisms, like credentials, certificates, etc. |
+| **Keep Alive** | 0x05 | varint | No | Establish a Keep Alive interval in seconds different than the default \(60 seconds\). |
+
+### Field Values
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Field</th>
+      <th style="text-align:left">Type</th>
+      <th style="text-align:left">Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><b>Auth Type</b>
+      </td>
+      <td style="text-align:left">varint</td>
+      <td style="text-align:left">
+        <p>1: Payload contains an array with [&quot;username&quot;, &quot;device&quot;,
+          &quot;credential&quot;].</p>
+        <p>2: Payload contain an string with the client certificate.</p>
+        <p>Default is 1</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Keep Alive</b>
+      </td>
+      <td style="text-align:left">varint</td>
+      <td style="text-align:left">
+        <p>Number of expected seconds between keep alives.</p>
+        <p>Default is 60</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 
 
@@ -33,10 +66,8 @@ TBD
 
 | Message | Description |
 | :--- | :--- |
-| \*\*\*\*[**Ok**](../ok.md)\*\*\*\* | Should answer with an OK if it is able to stream the requested resource at the specified interval. It must contain the Stream Id specified in this message. |
-| \*\*\*\*[**Error**](../error.md)\*\*\*\* | Should answer with an Error if the target resource cannot be streamed at the specified interval. It must contain the Stream Id specified in this message. |
-
-### Example
+| \*\*\*\*[**Ok**](ok.md)\*\*\*\* | The server should answer with an OK if it is able to authenticate the client and the negotiated parameters are acceptable. It must contain the Stream Id specified in this message. |
+| \*\*\*\*[**Error**](error.md)\*\*\*\* | The server should answer with an Error if it is not able to authenticate the client or the negotiated parameters are not acceptable. It must contain the Stream Id specified in this message. |
 
 TBD
 
@@ -44,16 +75,16 @@ TBD
 
 | Message | Description |
 | :--- | :--- |
-| \*\*\*\*[**Stream Sample**](stream-sample.md)\*\*\*\* | If the resource has been configured with a sampling interval, it must send the data using the `Stream Sample` message, that represents a periodical sampling data over the stream.  |
-| \*\*\*\*[**Stream Event**](stream-event.md)\*\*\*\* | If the resource has been configured without a sampling interval, it must send the data using the `Stream Event` message, that represents a message over the stream.  |
-| \*\*\*\*[**Stop Stream**](stop-stream.md)\*\*\*\* | A `Stop Stream` can be sent anytime during the stream life-time to conclude the streaming. |
-| \*\*\*\*[**Start Stream**](start-stream.md)\*\*\*\* | A `Start Stream` can be sent anytime by the requester to reconfigure the sampling interval. In such case, should send only the Stream Identifier and the new Interval. |
+| \*\*\*\*[**Stream Sample**](streams/stream-sample.md)\*\*\*\* | If the resource has been configured with a sampling interval, it must send the data using the `Stream Sample` message, that represents a periodical sampling data over the stream.  |
+| \*\*\*\*[**Stream Event**](streams/stream-event.md)\*\*\*\* | If the resource has been configured without a sampling interval, it must send the data using the `Stream Event` message, that represents a message over the stream.  |
+| \*\*\*\*[**Stop Stream**](streams/stop-stream.md)\*\*\*\* | A `Stop Stream` can be sent anytime during the stream life-time to conclude the streaming. |
+| \*\*\*\*[**Start Stream**](streams/start-stream.md)\*\*\*\* | A `Start Stream` can be sent anytime by the requester to reconfigure the sampling interval. In such case, should send only the Stream Identifier and the new Interval. |
 
 ## Client Implementation notes
 
 ### Resource definition
 
-A resource to be used in a stream should be defined in the same way to a normal resource that can be executed over the [Run ](../run.md)message, i.e., a resource defined with the [Thinger.io Arduino Library](https://github.com/thinger-io/Arduino-Library) is defined as the following:
+A resource to be used in a stream should be defined in the same way to a normal resource that can be executed over the [Run ](run.md)message, i.e., a resource defined with the [Thinger.io Arduino Library](https://github.com/thinger-io/Arduino-Library) is defined as the following:
 
 ```cpp
 void setup(){
@@ -95,7 +126,7 @@ void loop() {
 }
 ```
 
-![Example ESP8266 running IOTMP for sending heading when there is a subtle difference.](../../.gitbook/assets/image%20%283%29.png)
+![Example ESP8266 running IOTMP for sending heading when there is a subtle difference.](../.gitbook/assets/image%20%283%29.png)
 
 ## Server Implementation notes
 

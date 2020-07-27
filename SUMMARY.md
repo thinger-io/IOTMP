@@ -10,6 +10,8 @@
   * [Error](messages/error.md)
   * [Keep Alive](messages/keep-alive.md)
   * [Run](messages/run.md)
+  * [Connect](messages/connect.md)
+  * [Disconnect](messages/disconnect.md)
   * [Streams](messages/streams/README.md)
     * [Start Stream](messages/streams/start-stream.md)
     * [Stop Stream](messages/streams/stop-stream.md)
