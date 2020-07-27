@@ -13,16 +13,17 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
 | Field | Value | Description |
 | :--- | :--- | :--- |
 | **Message Type** | 0x08 | Connect |
-| **Message Size** | varint | Remaining Message Length |
+| **Message Size** | VARINT | Remaining Message Length |
 
 ### Body
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | varint | Yes | Request Identifier. |
-| **Payload** | 0x03 |  | Yes | Authentication payload as defined by the `Auth Type` field. By default, the `Auth Type` is 1 \(credentials\), so the `Payload` MUST contain an array with the username, device identifier, and credentials.  |
-| **Auth Type** | 0x04 | varint | No | Depending on the value, the authentication is done over different mechanisms, like credentials, certificates, token, etc. |
-| **Keep Alive** | 0x05 | varint | No | Establish a Keep Alive interval in seconds \(60 seconds by default\). |
+| **Stream Id** | 0x01 | VARINT | Yes | Request Identifier. |
+| **Payload** | 0x03 | DATA | Yes | Authentication payload as defined by the `Auth Type` field. By default, the `Auth Type` is 1 \(credentials\), so the `Payload` MUST contain an array with the username, device identifier, and credentials.  |
+| **Auth Type** | 0x04 | VARINT | No | Depending on the value, the authentication is done over different mechanisms, like credentials, certificates, token, etc. |
+| **Keep Alive** | 0x05 | VARINT | No | Establish a Keep Alive interval in seconds \(60 seconds by default\). |
+| **Payload Encoding** | 0x06 | VARINT |  | Defines the encoding mechanism that will be used for encoding `Json` fields. |
 
 ### Field Values
 
@@ -38,7 +39,7 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
     <tr>
       <td style="text-align:left"><b>Auth Type</b>
       </td>
-      <td style="text-align:left">varint</td>
+      <td style="text-align:left">VARINT</td>
       <td style="text-align:left">
         <p>1: Payload contains an array with [&quot;username&quot;, &quot;device&quot;,
           &quot;credential&quot;].</p>
@@ -49,13 +50,25 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>Keep Alive</b>
+      <td style="text-align:left"><b>Keep Alive Interval</b>
       </td>
-      <td style="text-align:left">varint</td>
+      <td style="text-align:left">VARINT</td>
       <td style="text-align:left">
         <p>Number of expected seconds between keep alives.</p>
         <p><b>Default: 60</b>
         </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Payload Encoding</b>
+      </td>
+      <td style="text-align:left">VARINT</td>
+      <td style="text-align:left">
+        <p>1: Payload encoded with PSON format</p>
+        <p>2: Payload encoded with JSON format</p>
+        <p>3: Payload encoded with MessagePack format</p>
+        <p>4: Payload encoded with CBOR format</p>
+        <p>5: Payload encoded with UBJSON format</p>
       </td>
     </tr>
   </tbody>

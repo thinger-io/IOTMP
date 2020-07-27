@@ -10,14 +10,16 @@ A **device** can define multiple resources as required by its use case, i.e., re
 
 A **server** or broker can also define multiple resources that can be executed by their clients. Such resources can vary depending on the use case, and normally involves complex task that are not worth to be executed in the device. Typical resources defined by a server can be actions like writing to a database, calling an external endpoint for sending communications, managing device configuration, etc.
 
-## Header
+## Request
+
+### Header
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
 | **Message Type** | 0x04 | Run |
 | **Message Size** | varint | Remaining Message Length |
 
-## Body
+### Body
 
 | Field | Identifier | Type | Value |
 | :--- | :--- | :--- | :--- |
@@ -26,7 +28,7 @@ A **server** or broker can also define multiple resources that can be executed b
 | _**Payload**_ | 0x03 |  | The payload sent to the target resource. Can be omitted if the target resource does not require a payload. |
 | _**Action**_ | 0x04 | varint | Represent the action to be executed: i.e., run a device resource. Can be omitted, and the default action will be to execute a device resource \(0x01\) with the specified resource identifier in the `Resource` field. See [Actions](run.md#actions). |
 
-## Default Actions
+### Default Actions
 
 <table>
   <thead>
@@ -45,6 +47,14 @@ A **server** or broker can also define multiple resources that can be executed b
         for reading the temperature.</td>
     </tr>
     <tr>
+      <td style="text-align:left"><b>Describe Resource(s)</b>
+      </td>
+      <td style="text-align:left">0x02</td>
+      <td style="text-align:left">Describe the resources defined in the endpoint. If the resource field
+        is empty, it should list all available resources. Otherwise, shoud provide
+        information about the specified resource.</td>
+    </tr>
+    <tr>
       <td style="text-align:left"><b>Reserved</b>
       </td>
       <td style="text-align:left">
@@ -56,7 +66,7 @@ A **server** or broker can also define multiple resources that can be executed b
   </tbody>
 </table>
 
-## Extended Actions
+### Extended Actions
 
 Any client and server can define their own functions or actions to extend the protocol functionality. This can be done by defining more values for the Action field. By default, actions from `0x01` to `0x08` are reserved, but it is possible to define several additional actions. For example, the Thinger.io implementation currently works with those extended actions:
 
@@ -67,4 +77,6 @@ Any client and server can define their own functions or actions to extend the pr
 | **Write Bucket** | 0x0B | Write data to the target bucket |
 | **Read Device Property** | 0x0C | Read the value of a device property |
 | **Set Device Property** | 0x0D | Set the value of a device property |
+
+## E
 
