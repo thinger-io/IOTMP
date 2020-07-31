@@ -1,5 +1,5 @@
 ---
-description: Message to authenticate a negotiate connection parameters.
+description: Message to authenticate and negotiate connection parameters.
 ---
 
 # Connect
@@ -12,8 +12,8 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
-| **Message Type** | 0x08 | Connect |
-| **Message Size** | varint | Remaining Message Length |
+| **Message Type** | 0x03 | Connect |
+| **Message Size** | [varint](../definitions.md#varint) | Remaining Message Length |
 
 ### Body
 
