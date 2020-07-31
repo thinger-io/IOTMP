@@ -1,7 +1,6 @@
 # Table of contents
 
 * [IOT Message Protocol](README.md)
-* [Definitions](definitions.md)
 * [Message Structure](message-structure/README.md)
   * [Message Header](message-structure/message-header.md)
   * [Message Body](message-structure/message-body.md)
@@ -18,4 +17,5 @@
     * [Stop Stream](messages/streams/stop-stream.md)
     * [Stream Sample](messages/streams/stream-sample.md)
     * [Stream Event](messages/streams/stream-event.md)
+* [Definitions](definitions.md)
 
