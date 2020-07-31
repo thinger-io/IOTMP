@@ -1,6 +1,10 @@
+---
+description: Description of IOTMP message header.
+---
+
 # Message Header
 
-
+Each IOTMP message contains a header that describes the message type and its length over the wire. It is basically composed by two fields: Message Type and Remaining Length. The minimum header length is 2 bytes.
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
