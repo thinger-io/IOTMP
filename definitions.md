@@ -1,6 +1,8 @@
 # Definitions
 
-## Varint
+## Data Types
+
+### Varint
 
 To understand IOTMP, you first need to understand _varints_. Varints are a method of serializing integers using one or more bytes. Smaller numbers take a smaller number of bytes.
 
@@ -34,9 +36,11 @@ You reverse the two groups of 7 bits because, as you remember, varints store num
 →  256 + 32 + 8 + 4 = 300
 ```
 
-## PSON
+### JSON
 
-Protoson \([PSON](https://github.com/thinger-io/Protoson)\) is a method for encoding and decoding unstructured data in a binary format designed by [Thinger.io](https://thinger.io) specially for the IOT. Similar to JSON but fast and small. PSON is based on the Protocol Buffers encoding techniques, so it can achieve very small payloads over the wire, simplifying also the parsing and encoding processes. The [reference library](https://github.com/thinger-io/Protoson) done in C++ was designed with the following goals:
+### PSON
+
+Protoson \([PSON](https://github.com/thinger-io/Protoson)\) is a method for encoding and decoding unstructured data in a binary format designed by [Thinger.io](https://thinger.io) specially for the IOT. Similar to JSON but fast and small. PSON is based on Protocol Buffers encoding techniques, so it can achieve very small payloads over the wire, simplifying also the parsing and encoding processes. The [reference library](https://github.com/thinger-io/Protoson) done in C++ was designed with the following goals:
 
 * **Small compiled code size**. The library has mainly designed for microcontrollers or devices with very limited resources. The whole library with encoding and decoding support takes less than 3.5KB on an Arduino. It does not require the Standard Template Library \(STL\).
 * **Custom memory allocators**. Protoson C++ can use different memory allocations approaches. Currently there are implemented a circular, and a dynamic memory allocator.

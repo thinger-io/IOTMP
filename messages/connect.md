@@ -19,11 +19,11 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | Request Identifier. |
+| **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | Connect [Stream identifier](../definitions.md#stream-identifier) |
 | **Auth Type** | 0x02 | [varint](../definitions.md#varint) | No | Depending on the value, the authentication is done over different mechanisms, like credentials, certificates, token, etc. |
 | **Auth Info** | 0x03 |  | Yes | Authentication payload as defined by the `Auth Type` field. By default, the `Auth Type` is 1 \(credentials\), so the `Auth Info` MUST contain an array with the username, device identifier, and credentials.  |
-| **Keep Alive** | 0x04 | varint | No | Establish a Keep Alive interval in seconds \(60 seconds by default\). |
-| **Payload Encoding** | 0x05 | varint |  | Defines the encoding mechanism that will be used for encoding `Json` fields. |
+| **Keep Alive** | 0x04 | [varint](../definitions.md#varint) | No | Establish a Keep Alive interval in seconds \(60 seconds by default\). |
+| **Payload Encoding** | 0x05 | [varint](../definitions.md#varint) | No | Defines the encoding mechanism that will be used for encoding `Json` fields. |
 
 ### Field Values
 
@@ -39,12 +39,13 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
     <tr>
       <td style="text-align:left"><b>Auth Type</b>
       </td>
-      <td style="text-align:left">VARINT</td>
+      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
+      </td>
       <td style="text-align:left">
-        <p>1: Payload contains an array with [&quot;username&quot;, &quot;device&quot;,
+        <p>1: Auth Info contains an array with [&quot;username&quot;, &quot;device&quot;,
           &quot;credential&quot;].</p>
-        <p>2: Payload contain a string with the client certificate.</p>
-        <p>3: Payload contains a string with a Token.</p>
+        <p>2: Auth Info contain a string with the client certificate.</p>
+        <p>3: Auth Info contains a string with a Token.</p>
         <p><b>Default: 1</b>
         </p>
       </td>
@@ -52,7 +53,8 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
     <tr>
       <td style="text-align:left"><b>Keep Alive Interval</b>
       </td>
-      <td style="text-align:left">VARINT</td>
+      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
+      </td>
       <td style="text-align:left">
         <p>Number of expected seconds between keep alives.</p>
         <p><b>Default: 60</b>
@@ -62,7 +64,8 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
     <tr>
       <td style="text-align:left"><b>Payload Encoding</b>
       </td>
-      <td style="text-align:left">VARINT</td>
+      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
+      </td>
       <td style="text-align:left">
         <p>1: DATA type is encoded with PSON format</p>
         <p>2: DATA encoded with JSON format</p>
