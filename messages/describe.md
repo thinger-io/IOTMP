@@ -41,13 +41,16 @@ The payload should contain a document with the following format:
 {
   "relay": {
     "fn": 2
+    "id": 0
   },
   "temperature": {
     "fn": 3
+    "id": 1
   },
   "reset" : {
     "fn": 1,
-    "st": false
+    "st": false,
+    "id": 2
 }
 ```
 

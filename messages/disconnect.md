@@ -21,11 +21,11 @@ A `Disconnect`message can be sent anytime to close an ongoing connection. It can
 | :--- | :--- | :--- | :--- | :--- |
 | **Stream Id** | 0x01 | [varint](../definitions.md#varint) | No | Request Identifier. |
 | **Reason** | 0x02 | [varint](../definitions.md#varint) | No | Disconnect reason. |
-| **Payload** | 0x03 |  | No |  |
+| **Payload** | 0x03 |  | No | Additional disconnect information. |
 
 ### Reason Values
 
 | Value | Description |
 | :--- | :--- |
-| **0x01** | TBD |
+| **0x01** | TBD... |
 
