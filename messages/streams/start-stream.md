@@ -8,7 +8,7 @@ description: >-
 
 ## Request
 
-Here it is defined the message to be sent to start a stream, usually from the server to the client.
+A start stream request is usually sent by the server to start receiving data from a connected client, i.e., when a stream is opened to consume the resource information \(a dashboard, mobile App, etc.\).
 
 ### Header
 
@@ -21,7 +21,7 @@ Here it is defined the message to be sent to start a stream, usually from the se
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | varint | Yes | Stream identifier to be used to be used within the stream life-time. |
+| **Stream Id** | 0x01 | varint | Yes | Stream identifier to be used within the stream life-time. |
 | **Resource**  | 0x02 |  | First Time | A string or array of strings with the resource identifier, i.e., "temperature". It is only mandatory the first time the stream is opened. Following Start Streams over the same Stream Id can be used fo reconfigure the interval, so it is not required to specify again the resource. |
 | **Interval** | 0x04 | varint | No | Sampling interval in seconds. If the field is not present or zero,  just allows the target resource to stream the resource as considered, i.e., when there is an event.  |
 
@@ -53,7 +53,7 @@ TBD
 
 ### Resource definition
 
-A resource to be used in a stream should be defined in the same way to a normal resource that can be executed over the [Run ](../run.md)message, i.e., a resource defined with the [Thinger.io Arduino Library](https://github.com/thinger-io/Arduino-Library) can be defined as the following:
+A resource to be used in a stream should be defined in the same way to a normal resource that can be executed over the [Run ](../run.md)message, i.e., a resource defined with the [Thinger.io Arduino Library](https://github.com/thinger-io/Arduino-Library) is defined as the following:
 
 ```cpp
 void setup(){
@@ -134,9 +134,9 @@ And then transmit over the `Websocket` different frames with expected resources 
 
 ### MQTT Integration
 
-TBD
+~~TBD~~
 
-devices/smart\_irrigation/resources/temp?interval=5
+~~devices/smart\_irrigation/resources/temp?interval=5~~
 
 ### Different streaming interval
 
@@ -148,5 +148,5 @@ There can be conflicts if different sources requires different sampling interval
 
 ### Sampling intervals and events subscriptions 
 
-There is another use case where a data sink may require to receive a resource data periodically, i.e., to store it, and other data sink require only events, i.e., raised events by the device. Suppose a resource "A" that provides temperature and humidity, and
+There is another use case where a data sink may require to receive a resource data periodically, i.e., to store it, and other data sink require only events, i.e., raised events by the device. ~~TBD~~
 

@@ -13,17 +13,17 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
 | Field | Value | Description |
 | :--- | :--- | :--- |
 | **Message Type** | 0x08 | Connect |
-| **Message Size** | VARINT | Remaining Message Length |
+| **Message Size** | varint | Remaining Message Length |
 
 ### Body
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | VARINT | Yes | Request Identifier. |
-| **Payload** | 0x03 | DATA | Yes | Authentication payload as defined by the `Auth Type` field. By default, the `Auth Type` is 1 \(credentials\), so the `Payload` MUST contain an array with the username, device identifier, and credentials.  |
-| **Auth Type** | 0x04 | VARINT | No | Depending on the value, the authentication is done over different mechanisms, like credentials, certificates, token, etc. |
-| **Keep Alive** | 0x05 | VARINT | No | Establish a Keep Alive interval in seconds \(60 seconds by default\). |
-| **Payload Encoding** | 0x06 | VARINT |  | Defines the encoding mechanism that will be used for encoding `Json` fields. |
+| **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | Request Identifier. |
+| **Auth Type** | 0x02 | [varint](../definitions.md#varint) | No | Depending on the value, the authentication is done over different mechanisms, like credentials, certificates, token, etc. |
+| **Auth Info** | 0x03 |  | Yes | Authentication payload as defined by the `Auth Type` field. By default, the `Auth Type` is 1 \(credentials\), so the `Auth Info` MUST contain an array with the username, device identifier, and credentials.  |
+| **Keep Alive** | 0x04 | varint | No | Establish a Keep Alive interval in seconds \(60 seconds by default\). |
+| **Payload Encoding** | 0x05 | varint |  | Defines the encoding mechanism that will be used for encoding `Json` fields. |
 
 ### Field Values
 

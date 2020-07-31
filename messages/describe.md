@@ -112,5 +112,5 @@ In such document each key represents the resource name
 
 ### Error
 
-The resource cannot be executed, i.e, it does not exists, or there are problems with the supplied parameters
+The resource cannot be executed, i.e, it does not exists, or there are problems with the supplied parameters.
 
