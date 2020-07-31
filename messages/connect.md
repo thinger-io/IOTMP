@@ -64,11 +64,13 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
       </td>
       <td style="text-align:left">VARINT</td>
       <td style="text-align:left">
-        <p>1: Payload encoded with PSON format</p>
-        <p>2: Payload encoded with JSON format</p>
-        <p>3: Payload encoded with MessagePack format</p>
-        <p>4: Payload encoded with CBOR format</p>
-        <p>5: Payload encoded with UBJSON format</p>
+        <p>1: DATA type is encoded with PSON format</p>
+        <p>2: DATA encoded with JSON format</p>
+        <p>3: DATA encoded with MessagePack format</p>
+        <p>4: DATA encoded with CBOR format</p>
+        <p>5: DATA encoded with UBJSON format</p>
+        <p><b>Default: 1</b>
+        </p>
       </td>
     </tr>
   </tbody>

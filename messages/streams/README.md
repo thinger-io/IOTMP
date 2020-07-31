@@ -1,4 +1,4 @@
-# Resource Streams
+# Streams
 
 The [Run ](../run.md)message is perfectly suited for request/response paradigms. Those messages allows to send a request and receive a response. This is quite useful for sending a request to a device, i.e., to turn on a light, or to query the current power consumption. However, this approach is not optimized if it is necessary a long-lived monitoring over a resource. For example, monitoring every few seconds the temperature and humidity. In this case, a constant polling to the device is not efficient.
 

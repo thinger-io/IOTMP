@@ -6,6 +6,7 @@
   * [Message Header](message-structure/message-header.md)
   * [Message Body](message-structure/message-body.md)
 * [Messages](messages/README.md)
+  * [Untitled](messages/untitled.md)
   * [Ok](messages/ok.md)
   * [Error](messages/error.md)
   * [Keep Alive](messages/keep-alive.md)
