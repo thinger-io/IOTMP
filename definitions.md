@@ -54,13 +54,17 @@ A "stream" is an independent, bidirectional sequence of messages exchanged betwe
 * The order in which frames are sent on a stream is significant. Recipients process frames in the order they are received.
 * Streams are identified by an integer. Stream identifiers are assigned to streams by the endpoint initiating the stream.
 
+### Stream Identifier
+
 ## Resources
 
 Recurs
 
 
 
-### 
+### Resource Identifier
+
+
 
 
 
