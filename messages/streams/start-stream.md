@@ -14,16 +14,16 @@ A start stream request is usually sent by the server to start receiving data fro
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
-| **Message Type** | 0x05 | Start Stream |
-| **Message Size** | varint | Remaining Message Length |
+| **Message Type** | 0x08 | Start Stream |
+| **Message Size** | [varint](../../definitions.md#varint) | Remaining Message Length |
 
 ### Body
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | varint | Yes | Stream identifier to be used within the stream life-time. |
+| **Stream Id** | 0x01 | [varint](../../definitions.md#varint) | Yes | Stream identifier to be used within the stream life-time. |
 | **Resource**  | 0x02 |  | First Time | A string or array of strings with the resource identifier, i.e., "temperature". It is only mandatory the first time the stream is opened. Following Start Streams over the same Stream Id can be used fo reconfigure the interval, so it is not required to specify again the resource. |
-| **Interval** | 0x04 | varint | No | Sampling interval in seconds. If the field is not present or zero,  just allows the target resource to stream the resource as considered, i.e., when there is an event.  |
+| **Interval** | 0x04 | [varint](../../definitions.md#varint) | No | Sampling interval in seconds. If the field is not present or zero,  just allows the target resource to stream the resource as considered, i.e., when there is an event.  |
 
 ### Example 
 

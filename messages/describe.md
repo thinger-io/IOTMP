@@ -14,14 +14,14 @@ This message allows discovering such resources, like its names, function type, i
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
-| **Message Type** | 0x04 | Describe Resources |
-| **Message Size** | varint | Remaining Message Length |
+| **Message Type** | 0x07 | Describe Resources |
+| **Message Size** | [varint](../definitions.md#varint) | Remaining Message Length |
 
 ### Body
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| _**Stream Id**_ | 0x01 | varint | Yes | [Stream identifier](../definitions.md#stream-identifier). |
+| _**Stream Id**_ | 0x01 | [varint](../definitions.md#varint) | Yes | [Stream identifier](../definitions.md#stream-identifier). |
 | **Resource**  | 0x02 |  | No | [Resource identifier](../definitions.md#resource-definition).  |
 
 ## Response
@@ -32,7 +32,7 @@ If the request succeed, the endpoint should return an OK message with the follow
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | varint | Yes | [Stream identifier](../definitions.md#stream-identifier) used in the request. |
+| **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | [Stream identifier](../definitions.md#stream-identifier) used in the request. |
 | **Payload** | 0x03 |  | Yes | Document describing the resource. |
 
 The payload should contain a document with the following format:

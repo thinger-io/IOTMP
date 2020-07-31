@@ -16,14 +16,14 @@ A **server** or broker can also define multiple resources that can be executed b
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
-| **Message Type** | 0x04 | Run |
-| **Message Size** | varint | Remaining Message Length |
+| **Message Type** | 0x06 | Run |
+| **Message Size** | [varint](../definitions.md#varint) | Remaining Message Length |
 
 ### Body
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | varint | No | [Stream identifier](../definitions.md#stream-identifier). |
+| **Stream Id** | 0x01 | [varint](../definitions.md#varint) | No | [Stream identifier](../definitions.md#stream-identifier). |
 | **Resource**  | 0x02 |  | Yes | [Resource identifier](../definitions.md#resource-identifier). |
 | **Payload** | 0x03 |  | No | The payload sent to the target resource. Can be omitted if the target resource does not require an input. |
 | **Parameters** | 0x04 |  | No | [Resource parameters](../definitions.md#resource-parameters) to be supplied while executing  the resource. |
@@ -36,7 +36,7 @@ The resource executed correctly.
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id**  | 0x01 | varint | Yes | [Resource identifier](../definitions.md#resource-identifier) associated to the request. |
+| **Stream Id**  | 0x01 | [varint](../definitions.md#varint) | Yes | [Resource identifier](../definitions.md#resource-identifier) associated to the request. |
 | **Payload** | 0x03 |  | No | The response payload that generated in the resource execution. |
 
 ### Error
@@ -45,6 +45,6 @@ An error occurred while executing the resource..
 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stream Id**  | 0x01 | varint | Yes | [Resource identifier](../definitions.md#resource-identifier) associated to the request. |
+| **Stream Id**  | 0x01 | [varint](../definitions.md#varint) | Yes | [Resource identifier](../definitions.md#resource-identifier) associated to the request. |
 | **Payload** | 0x03 |  | No | Additional error information. |
 
