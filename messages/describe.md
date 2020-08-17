@@ -126,9 +126,7 @@ If the request succeed, the endpoint should return an OK message with the follow
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
 | **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | [Stream identifier](../definitions.md#stream-identifier) used in the request. |
-| **Resource Input** | 0x04 |  | No | Document describing the resource input. |
-| **Resource Output** | 0x05 |  | No | Document describing the resource output. |
-| **Parameters** | 0x06 |  | No | Document describing the resource parameters. |
+| **Payload** | 0x03 |  | no | Document describing the resource input. |
 
 ### Error
 
