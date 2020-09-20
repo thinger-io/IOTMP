@@ -69,7 +69,8 @@ In such document each key represents the resource name
   <tbody>
     <tr>
       <td style="text-align:left">Function Type</td>
-      <td style="text-align:left">fn</td>
+      <td style="text-align:left"><b>fn</b>
+      </td>
       <td style="text-align:left">
         <p>1 : function without parameters</p>
         <p>2 : function with input</p>
@@ -82,7 +83,8 @@ In such document each key represents the resource name
     </tr>
     <tr>
       <td style="text-align:left">Parameters</td>
-      <td style="text-align:left">pr</td>
+      <td style="text-align:left"><b>pr</b>
+      </td>
       <td style="text-align:left">
         <p>true: requires parameters</p>
         <p>false: no parameters required</p>
@@ -93,7 +95,8 @@ In such document each key represents the resource name
     </tr>
     <tr>
       <td style="text-align:left">Stream</td>
-      <td style="text-align:left">st</td>
+      <td style="text-align:left"><b>st</b>
+      </td>
       <td style="text-align:left">
         <p>true : support Stream</p>
         <p>false: no stream support</p>
@@ -104,7 +107,8 @@ In such document each key represents the resource name
     </tr>
     <tr>
       <td style="text-align:left">Resource identifier</td>
-      <td style="text-align:left">id</td>
+      <td style="text-align:left"><b>id</b>
+      </td>
       <td style="text-align:left">varint</td>
       <td style="text-align:left">No</td>
       <td style="text-align:left">An alternative numeric resource identifier, instead of a name, that can
