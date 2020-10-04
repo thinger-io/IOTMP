@@ -11,9 +11,9 @@ So, the message body is composed of a variable number of fields, each one with a
 | Field | Type | Description |
 | :--- | :--- | :--- |
 | **Key** | [varint](../definitions.md#varint) | Specifies the field identifier and the value type. |
-| **Value** |  | The field value uses to contain integers or documents formated with JSON or other binary representations. |
+| **Value** | any | The field value uses to contain integers or documents formated with JSON or other binary representations. |
 
-## Field Key
+## Pair Key
 
 Each key in the message is a varint that encondes both the field identifier, and the field type. The field type is called the wire type, and specifies how the value is encoded over the wire. The field identifier represents just the field for each specific message.
 
@@ -28,16 +28,18 @@ The following wire types are supported inside IOTMP:
 | Type | Value | Used For |
 | :--- | :--- | :--- |
 | Varint | 0x00 | int32, int64, uint32, uint64, sint32, sint64, bool, enum |
-| Fixed 64 | 0x01 | fixed64, sfixed64, double |
-| Length-Delimited | 0x02 | string, bytes, embedded custom data other than PSON, i.e., CBOR, MessagePack, etc. |
-| Fixed 32 | 0x05 | Specifies that the value is fixed 32 bits |
-| PSON | 0x06 | Indicates that the value is encoded with PSON format |
+| PSON | 0x01 | Values in [PSON ](https://github.com/thinger-io/Protoson)format |
+| JSON | 0x02 | Values in [JSON ](https://www.json.org)format |
+| MESSAGEPACK | 0x03 | Values in [MessagePack ](https://msgpack.org/)format |
+| BSON | 0x04 | Values in [BSON ](http://bsonspec.org/)format |
+| CBOR | 0x05 | Values in [CBOR ](https://cbor.io/)format |
+| UBJSON | 0x06 | Values in [UBJSON ](https://ubjson.org/)format |
 
 ### Field Identifier
 
 The field identifier depends on each message, and can represent values like credentials, resource identifier, payloads, etc. So, each message specifies their own message identifiers, as described [here](../messages/).
 
-## Field Value
+## Pair Value
 
 Each field with a key has an associated value that can be encoded in different formats.
 

@@ -130,7 +130,7 @@ If the request succeed, the endpoint should return an OK message with the follow
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
 | **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | [Stream identifier](../definitions.md#stream-identifier) used in the request. |
-| **Payload** | 0x03 |  | no | Document describing the resource input. |
+| **Payload** | 0x03 |  | No | Document describing the resource input. |
 
 The payload should contain a document with the following format:
 
