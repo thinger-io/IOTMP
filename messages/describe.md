@@ -132,6 +132,27 @@ If the request succeed, the endpoint should return an OK message with the follow
 | **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | [Stream identifier](../definitions.md#stream-identifier) used in the request. |
 | **Payload** | 0x03 |  | no | Document describing the resource input. |
 
+The payload should contain a document with the following format:
+
+```javascript
+{
+  "in": true
+}
+```
+
+```javascript
+{
+  "out": 22.33
+}  
+```
+
+```javascript
+{
+  "in": 0
+  "out": 25
+}
+```
+
 ### Error
 
 The resource cannot be described, i.e, it does not exists.
