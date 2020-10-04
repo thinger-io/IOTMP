@@ -1,24 +1,24 @@
 ---
-description: This section describes the body encoding inside IOTMP
+description: This section describes the body encoding inside IOTMP.
 ---
 
 # Message Body
 
-Each IOTMP message body is basically a series of key-value pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is being decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
+Each IOTMP message body is basically a series of key-value pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
 
 So, the message body is composed of a variable number of fields, each one with a key-value pair:
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
-| Key | Varint | Specifies the field identifier and the value type. |
-| Value | Variable | The field value uses to contain integers or documents formated with JSON or other binary representations. |
+| **Key** | [varint](../definitions.md#varint) | Specifies the field identifier and the value type. |
+| **Value** |  | The field value uses to contain integers or documents formated with JSON or other binary representations. |
 
 ## Field Key
 
 Each key in the message is a varint that encondes both the field identifier, and the field type. The field type is called the wire type, and specifies how the value is encoded over the wire. The field identifier represents just the field for each specific message.
 
 ```text
-[1-bit] [3-bit with wire type] [4-bit field identifier]
+[1-bit][4-bit field identifier][3-bit with wire type] 
 ```
 
 The following wire types are supported inside IOTMP: 
