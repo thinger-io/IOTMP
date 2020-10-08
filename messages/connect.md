@@ -23,7 +23,7 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
 | **Auth Type** | 0x02 | [varint](../definitions.md#varint) | No | Depending on the value, the authentication is done over different mechanisms, like credentials, certificates, token, etc. |
 | **Auth Info** | 0x03 |  | Yes | Authentication payload as defined by the `Auth Type` field. By default, the `Auth Type` is 1 \(credentials\), so the `Auth Info` MUST contain an array with the username, device identifier, and credentials.  |
 | **Keep Alive** | 0x04 | [varint](../definitions.md#varint) | No | Establish a Keep Alive interval in seconds \(60 seconds by default\). |
-| **Payload Encoding** | 0x05 | [varint](../definitions.md#varint) | No | Defines the encoding mechanism that will be used for encoding `Json` fields. |
+| **Payload Encoding** | 0x05 | [varint](../definitions.md#varint) | No | Defines the encoding mechanism that will be used for encoding values. `PSON` by default. |
 
 ### Field Values
 
@@ -67,12 +67,13 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
       <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
       </td>
       <td style="text-align:left">
-        <p>1: DATA type is encoded with PSON format</p>
-        <p>2: DATA encoded with JSON format</p>
-        <p>3: DATA encoded with MessagePack format</p>
-        <p>4: DATA encoded with CBOR format</p>
-        <p>5: DATA encoded with UBJSON format</p>
-        <p><b>Default: 1</b>
+        <p>0x01: PSON format</p>
+        <p>0x02: JSON format</p>
+        <p>0x03: MessagePack format</p>
+        <p>0x04: BSON format</p>
+        <p>0x05: CBOR format</p>
+        <p>0x06: UBJSON format</p>
+        <p><b>Default: 0x01 PSON</b>
         </p>
       </td>
     </tr>
