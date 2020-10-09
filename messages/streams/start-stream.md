@@ -6,15 +6,19 @@ description: >-
 
 # Start Stream
 
-## Request
+A `Start Stream` request is like a `subscribe`method from `MQTT`, where an endpoint request information to the other. The difference with `MQTT` is that the `Start Stream` can be initiated by both sides of the connection, and once established, it allows bidirectional communications over the stream.
 
-A start stream request is usually sent by the server to the client to start receiving data from a connected client, i.e., when a stream is opened to consume the resource information, i.e., from a dashboard, mobile App, etc. It creates 
+This way, a server can initiate a `Start Stream` request to a client, requiring a resource from it, i.e., temperature, when there is a 3rd party consuming the information, like a dashboard, a mobile application, etc. This scheme allows the server to also [`Stop Stream`](stop-stream.md) when the 3rd party is disconnected, i.e., the user close the dashboard or the mobile application. So it can save bandwidth when the information is not being consumed.
 
-It can be also initiated from the client to the server, in order to receive data that is published to a common server resource, i.e., a topic.
+In all `IOTMP` protocol messages, there is a `Stream Id` field that allows identifying a request and its response over the wire. Once the request is completed \(with an [`Ok` ](../ok.md)or [`Error`](../error.md)\), the `Stream Id`can be discarded by both sides. With the `Start Stream` there is also a `Stream Id`, but it is kept until the Stream channel is done, i.e., one side initiated the [`Stop Stream`](stop-stream.md). So, all the messages sent over an established stream, either with [`Stream Sample`](stream-sample.md) or [`Stream Event`](stream-event.md), will include the `Stream Id` established in the `Start Stream` request. This allows to save bandwidth, as it is not required to send the resource identifier over and over again. 
 
 {% hint style="info" %}
-Start Stream is like the subscribe pattern from MQTT, but it can be started by both sides, a server to start receiving device information \(i.e., to serve it over websocket\), or by device, to receive information from the 
+Start Stream is like the subscribe pattern from MQTT, but it can be started by both sides.
 {% endhint %}
+
+## Request
+
+
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
