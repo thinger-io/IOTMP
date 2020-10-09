@@ -8,9 +8,13 @@ description: >-
 
 ## Request
 
-A start stream request is usually sent by the server to start receiving data from a connected client, i.e., when a stream is opened to consume the resource information \(a dashboard, mobile App, etc.\).
+A start stream request is usually sent by the server to the client to start receiving data from a connected client, i.e., when a stream is opened to consume the resource information, i.e., from a dashboard, mobile App, etc. It creates 
 
-### Header
+It can be also initiated from the client to the server, in order to receive data that is published to a common server resource, i.e., a topic.
+
+{% hint style="info" %}
+Start Stream is like the subscribe pattern from MQTT, but it can be started by both sides, a server to start receiving device information \(i.e., to serve it over websocket\), or by device, to receive information from the 
+{% endhint %}
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
