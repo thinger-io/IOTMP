@@ -1,20 +1,50 @@
 ---
-description: >-
-  Initiates a long-live stream for transmitting periodic data associated to a
-  resource.
+description: Initiates a long-live stream for transmitting data associated to a resource.
 ---
 
 # Start Stream
 
-A `Start Stream` request is like a `subscribe`method from `MQTT`, where an endpoint request information to the other. The difference with `MQTT` is that the `Start Stream` can be initiated by both sides of the connection, and once established, it allows bidirectional communications over the stream.
+A `Start Stream` method is a way of opening a communication channel between the server and the client. It can be opened by both sides, and each `Stream` will have its own Stream Identifier with its own scope**:** [**publish**](start-stream.md#publish), [**subscribe**](start-stream.md#subscribe), or [**publish/subscribe**](start-stream.md#publish-subscribe), depending on the use case.
 
-This way, a server can initiate a `Start Stream` request to a client, requiring a resource from it, i.e., temperature, when there is a 3rd party consuming the information, like a dashboard, a mobile application, etc. This scheme allows the server to also [`Stop Stream`](stop-stream.md) when the 3rd party is disconnected, i.e., the user close the dashboard or the mobile application. So it can save bandwidth when the information is not being consumed.
+## Stream Identifiers
 
-In all `IOTMP` protocol messages, there is a `Stream Id` field that allows identifying a request and its response over the wire. Once the request is completed \(with an [`Ok` ](../ok.md)or [`Error`](../error.md)\), the `Stream Id`can be discarded by both sides. With the `Start Stream` there is also a `Stream Id`, but it is kept until the Stream channel is done, i.e., one side initiated the [`Stop Stream`](stop-stream.md). So, all the messages sent over an established stream, either with [`Stream Sample`](stream-sample.md) or [`Stream Event`](stream-event.md), will include the `Stream Id` established in the `Start Stream` request. This allows to save bandwidth, as it is not required to send the resource identifier over and over again. 
+In all `IOTMP` protocol messages, there is a `Stream Id` field that allows identifying a request and its response over the wire. Once the request is completed \(with an [`Ok` ](../ok.md)or [`Error`](../error.md)\), the `Stream Id`can be discarded by both sides. 
+
+With the `Start Stream` there is also a `Stream Id`, but it is kept until the Stream channel is done, i.e., one side initiated the [`Stop Stream`](stop-stream.md). So, all the messages sent over an established stream, either with [`Stream Sample`](stream-sample.md) or [`Stream Event`](stream-event.md), will include the `Stream Id` established in the `Start Stream` request. This allows to save bandwidth, as it is not required to send the resource identifier over and over again.
+
+## Scopes
+
+### Publish
+
+The initiator will use the channel for publishing information on the provided resource identifier. A typical scenario is a client that sends periodic information to the server, so it can be stored, analyzed, or forwarded on the server side. 
+
+In this scenario, the client will send a [`Start Stream`](start-stream.md) request to the server, indicating it wants to publish to the target resource/topic, i.e., "temperature". 
 
 {% hint style="info" %}
-Start Stream is like the subscribe pattern from MQTT, but it can be started by both sides.
+This approach will allow the PUBLISH pattern from MQTT
 {% endhint %}
+
+### Subscribe
+
+The initiator will use the channel for receiving information on the provided resource identifier. A typical scenario is a server that initiates a subscription to a target device, i.e, in order to provide resource information to some external requester, like a client opening a dashboard associated to the device. 
+
+In this scenario, the server will sent a [`Start Stream`](start-stream.md) request to the target device, requiring a subscription to a resource, i.e., "temperature", when there is a 3rd party consuming the information, like a dashboard, a mobile application, etc. This scheme allows the server to also [`Stop Stream`](stop-stream.md) when the 3rd party is disconnected, i.e., the user close the dashboard or the mobile application. So it can save bandwidth when the information is not being consumed.
+
+{% hint style="info" %}
+This approach will allow the SUBSCRIBE pattern from MQTT.
+{% endhint %}
+
+### Publish/Subscribe
+
+{% hint style="info" %}
+### Publish/Subscribe
+{% endhint %}
+
+The initiator will use the channel for both sending and receiving information on the provided resource identifier. It will allow the initiator to both publish and receive information from the same stream, creating a bidirectional flow over the resource. 
+
+A typical scenario for this pattern is a server opening a resource on the device that receives inputs and provides outpus, i.e., a terminal console.
+
+
 
 ## Request
 
@@ -27,11 +57,63 @@ Start Stream is like the subscribe pattern from MQTT, but it can be started by b
 
 ### Body
 
-| Field | Identifier | Type | Mandatory | Value |
-| :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | [varint](../../definitions.md#varint) | Yes | Stream identifier to be used within the stream life-time. |
-| **Resource**  | 0x02 |  | First Time | A string or array of strings with the resource identifier, i.e., "temperature". It is only mandatory the first time the stream is opened. Following Start Streams over the same Stream Id can be used fo reconfigure the interval, so it is not required to specify again the resource. |
-| **Interval** | 0x03 | [varint](../../definitions.md#varint) | No | Sampling interval in seconds. If the field is not present or zero,  just allows the target resource to stream the resource as considered, i.e., when there is an event.  |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Field</th>
+      <th style="text-align:left">Identifier</th>
+      <th style="text-align:left">Type</th>
+      <th style="text-align:left">Mandatory</th>
+      <th style="text-align:left">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><b>Stream Id</b>
+      </td>
+      <td style="text-align:left">0x01</td>
+      <td style="text-align:left"><a href="../../definitions.md#varint">varint</a>
+      </td>
+      <td style="text-align:left">Yes</td>
+      <td style="text-align:left">Stream identifier to be used within the stream life-time.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Resource </b>
+      </td>
+      <td style="text-align:left">0x02</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">First Time</td>
+      <td style="text-align:left">A string or array of strings with the resource identifier, i.e., &quot;temperature&quot;.
+        It is only mandatory the first time the stream is opened. Following Start
+        Streams over the same Stream Id can be used fo reconfigure the interval,
+        so it is not required to specify again the resource.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Interval</b>
+      </td>
+      <td style="text-align:left">0x03</td>
+      <td style="text-align:left"><a href="../../definitions.md#varint">varint</a>
+      </td>
+      <td style="text-align:left">No</td>
+      <td style="text-align:left">Sampling interval in seconds if the flow is subscribe. If the field is
+        not present or zero, just allows the target resource to stream the resource
+        as considered, i.e., when there is an event.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Scope</b>
+      </td>
+      <td style="text-align:left">0x04</td>
+      <td style="text-align:left"><a href="../../definitions.md#varint">varint</a>
+      </td>
+      <td style="text-align:left">No</td>
+      <td style="text-align:left">
+        <p>0: Subscribe (default)</p>
+        <p>1: Publish</p>
+        <p>2: Publish/Subscribe</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### Example 
 

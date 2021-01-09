@@ -6,7 +6,7 @@ description: Message used to represent an event sample in an opened stream
 
 ## Message
 
-A `Stream Event` message represents an event sample of a resource. For example, if a server request a client resource "temperature" without specifying interval, the client should send a `Stream Event` when considered by device, i.e, a periodical interval define by its own, when the value change significantly, an event is detected, etc.
+A `Stream Event` message represents an event sample of a resource. For example, if a server request a client resource, i.e., "temperature" without specifying interval, the client should send a `Stream Event` when considered by device, i.e, a periodical interval defined by its own, when the value changes significantly, an event is detected, and so on.
 
 ### Header
 

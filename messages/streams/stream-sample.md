@@ -6,7 +6,7 @@ description: Message used to represent a periodical sample in an opened stream
 
 ## Message
 
-A `Stream Sample` message represents a periodical sample of a resource, as configured after receiving  a `Start Stream` message. For example, if a server request a client resource "temperature" with an interval of 5 seconds, the client should send a `Stream Sample` message every 5 seconds with the content of the "temperature" resource. This message is defined as the following:
+A `Stream Sample` message represents a periodical sample of a resource, as configured after receiving  a `Start Stream` message. For example, if a server request a client resource "temperature" with an interval of 5 seconds, the client should send a `Stream Sample` message every 5 seconds with the  "temperature" resource contents.
 
 ### Header
 
