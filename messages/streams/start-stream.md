@@ -10,7 +10,7 @@ A `Start Stream` method is a way of opening a communication channel between the 
 
 In all `IOTMP` protocol messages, there is a `Stream Id` field that allows identifying a request and its response over the wire. Once the request is completed \(with an [`Ok` ](../ok.md)or [`Error`](../error.md)\), the `Stream Id`can be discarded by both sides. 
 
-With the `Start Stream` there is also a `Stream Id`, but it is kept until the Stream channel is done, i.e., one side initiated the [`Stop Stream`](stop-stream.md). So, all the messages sent over an established stream, either with [`Stream Sample`](stream-sample.md) or [`Stream Event`](stream-event.md), will include the `Stream Id` established in the `Start Stream` request. This allows to save bandwidth, as it is not required to send the resource identifier over and over again.
+With the `Start Stream` there is also a `Stream Id`, but it is kept until the Stream channel is done, i.e., one side request a [`Stop Stream`](stop-stream.md). So, all the messages sent over an established stream, either with [`Stream Sample`](stream-sample.md) or [`Stream Event`](stream-event.md), will include the `Stream Id` established in the `Start Stream` request. This allows to save bandwidth, as it is not required to send the resource identifier over and over again.
 
 ## Scopes
 
@@ -26,7 +26,7 @@ This approach will allow the PUBLISH pattern from MQTT
 
 ### Subscribe
 
-The initiator will use the channel for receiving information on the provided resource identifier. A typical scenario is a server that initiates a subscription to a target device, i.e, in order to provide resource information to some external requester, like a client opening a dashboard associated to the device. 
+The initiator will use the channel for receiving information on the provided resource identifier. A typical scenario is a server that initiates a subscription to a target device, i.e., in order to provide resource information to some external requester, like a client opening a dashboard associated to the device. 
 
 In this scenario, the server will sent a [`Start Stream`](start-stream.md) request to the target device, requiring a subscription to a resource, i.e., "temperature", when there is a 3rd party consuming the information, like a dashboard, a mobile application, etc. This scheme allows the server to also [`Stop Stream`](stop-stream.md) when the 3rd party is disconnected, i.e., the user close the dashboard or the mobile application. So it can save bandwidth when the information is not being consumed.
 

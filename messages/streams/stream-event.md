@@ -20,10 +20,16 @@ A `Stream Event` message represents an event sample of a resource. For example, 
 | Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
 | **Stream Id** | 0x01 | [varint](../../definitions.md#varint) | Yes | Stream identifier. |
-| **Input** | 0x02 |  | No | Current resource input. |
-| **Output** | 0x03 |  | No | Current resource output. |
+| **Source** | 0x02 | [varint](../../definitions.md#varint) | No | Flag that allows identifying the source of a stream event.  |
+| **Payload** | 0x03 |  | No | Current event payload |
 
-### Example 
+### Source
 
-TBD
+| Field | Value | Description |
+| :--- | :--- | :--- |
+| **Device Resource Input** | 0x01 | The stream payload is associated to a resource input, i.e., a switch state, config parameters, etc. |
+| **Device Resource Output** | 0x02 | The stream payload is associated to a resource output \(data generated inside a resource, i.e., a sensor reading\). |
+| **Device Resource Sample** | 0x03 | The stream payload is associated to a scheduled resource sample, i.e., a message sent every 5 seconds as requested in a [Start Stream](start-stream.md). |
+| Device Resource Stream | 0x04 | The information has been generated from a web interface \(i.e., HTTP request or websocket\) |
+| **Publish request** | 0x05 |  |
 
