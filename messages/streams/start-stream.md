@@ -21,7 +21,7 @@ The initiator will use the channel for publishing information on the provided re
 In this scenario, the client will send a [`Start Stream`](start-stream.md) request to the server, indicating it wants to publish to the target resource/topic, i.e., "temperature". 
 
 {% hint style="info" %}
-This approach will allow the PUBLISH pattern from MQTT
+This scope enables the PUBLISH pattern from MQTT
 {% endhint %}
 
 ### Subscribe
@@ -31,18 +31,14 @@ The initiator will use the channel for receiving information on the provided res
 In this scenario, the server will sent a [`Start Stream`](start-stream.md) request to the target device, requiring a subscription to a resource, i.e., "temperature", when there is a 3rd party consuming the information, like a dashboard, a mobile application, etc. This scheme allows the server to also [`Stop Stream`](stop-stream.md) when the 3rd party is disconnected, i.e., the user close the dashboard or the mobile application. So it can save bandwidth when the information is not being consumed.
 
 {% hint style="info" %}
-This approach will allow the SUBSCRIBE pattern from MQTT.
+This approach enables SUBSCRIBE pattern from MQTT.
 {% endhint %}
 
 ### Publish/Subscribe
-
-{% hint style="info" %}
-### Publish/Subscribe
-{% endhint %}
 
 The initiator will use the channel for both sending and receiving information on the provided resource identifier. It will allow the initiator to both publish and receive information from the same stream, creating a bidirectional flow over the resource. 
 
-A typical scenario for this pattern is a server opening a resource on the device that receives inputs and provides outpus, i.e., a terminal console.
+A typical scenario for this pattern is a server opening a resource on the device that receives inputs and provides an output, i.e., a terminal console.
 
 
 
