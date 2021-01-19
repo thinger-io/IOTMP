@@ -11,6 +11,7 @@
   * [Disconnect](messages/disconnect.md)
   * [Keep Alive](messages/keep-alive.md)
   * [Run Resource](messages/run.md)
+  * [Resource Action](messages/resource-action.md)
   * [Describe Resources](messages/describe.md)
   * [Resource Streams](messages/streams/README.md)
     * [Start Stream](messages/streams/start-stream.md)

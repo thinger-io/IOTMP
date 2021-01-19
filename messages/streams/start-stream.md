@@ -38,8 +38,6 @@ This approach enables SUBSCRIBE pattern from MQTT.
 
 The initiator will use the channel for both sending and receiving information on the provided resource identifier. It will allow the initiator to both publish and receive information from the same stream, creating a bidirectional flow over the resource. 
 
-A typical scenario for this pattern is a server opening a resource on the device that receives inputs and provides an output, i.e., a terminal console.
-
 
 
 ## Request
@@ -85,15 +83,14 @@ A typical scenario for this pattern is a server opening a resource on the device
         so it is not required to specify again the resource.</td>
     </tr>
     <tr>
-      <td style="text-align:left"><b>Interval</b>
+      <td style="text-align:left"><del>Interval </del><b>Parameters</b>
       </td>
       <td style="text-align:left">0x03</td>
-      <td style="text-align:left"><a href="../../definitions.md#varint">varint</a>
-      </td>
-      <td style="text-align:left">No</td>
-      <td style="text-align:left">Sampling interval in seconds if the flow is subscribe. If the field is
-        not present or zero, just allows the target resource to stream the resource
-        as considered, i.e., when there is an event.</td>
+      <td style="text-align:left">&lt;del&gt;&lt;/del&gt;<a href="../../definitions.md#varint"><del>varint</del></a>&lt;del&gt;&lt;/del&gt;</td>
+      <td
+      style="text-align:left">No</td>
+        <td style="text-align:left"><del>Sampling interval in seconds if the flow is subscribe. If the field is not present or zero,  just allows the target resource to stream the resource as considered, i.e., when there is an event. </del>
+        </td>
     </tr>
     <tr>
       <td style="text-align:left"><b>Scope</b>
