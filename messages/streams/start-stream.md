@@ -4,45 +4,17 @@ description: Initiates a long-live stream for transmitting data associated to a 
 
 # Start Stream
 
-A `Start Stream` method is a way of opening a communication channel between the server and the client. It can be opened by both sides, and each `Stream` will have its own Stream Identifier with its own scope**:** [**publish**](start-stream.md#publish), [**subscribe**](start-stream.md#subscribe), or [**publish/subscribe**](start-stream.md#publish-subscribe), depending on the use case.
+A `Start Stream` method is a way of opening a communication channel between the server and the client. It can be opened by both sides, and each `Stream` will have its own Stream Identifier.
 
 ## Stream Identifiers
 
 In all `IOTMP` protocol messages, there is a `Stream Id` field that allows identifying a request and its response over the wire. Once the request is completed \(with an [`Ok` ](../ok.md)or [`Error`](../error.md)\), the `Stream Id`can be discarded by both sides. 
 
-With the `Start Stream` there is also a `Stream Id`, but it is kept until the Stream channel is done, i.e., one side request a [`Stop Stream`](stop-stream.md). So, all the messages sent over an established stream, either with [`Stream Sample`](stream-sample.md) or [`Stream Event`](stream-event.md), will include the `Stream Id` established in the `Start Stream` request. This allows to save bandwidth, as it is not required to send the resource identifier over and over again.
-
-## Scopes
-
-### Publish
-
-The initiator will use the channel for publishing information on the provided resource identifier. A typical scenario is a client that sends periodic information to the server, so it can be stored, analyzed, or forwarded on the server side. 
-
-In this scenario, the client will send a [`Start Stream`](start-stream.md) request to the server, indicating it wants to publish to the target resource/topic, i.e., "temperature". 
-
-{% hint style="info" %}
-This scope enables the PUBLISH pattern from MQTT
-{% endhint %}
-
-### Subscribe
-
-The initiator will use the channel for receiving information on the provided resource identifier. A typical scenario is a server that initiates a subscription to a target device, i.e., in order to provide resource information to some external requester, like a client opening a dashboard associated to the device. 
-
-In this scenario, the server will sent a [`Start Stream`](start-stream.md) request to the target device, requiring a subscription to a resource, i.e., "temperature", when there is a 3rd party consuming the information, like a dashboard, a mobile application, etc. This scheme allows the server to also [`Stop Stream`](stop-stream.md) when the 3rd party is disconnected, i.e., the user close the dashboard or the mobile application. So it can save bandwidth when the information is not being consumed.
-
-{% hint style="info" %}
-This approach enables SUBSCRIBE pattern from MQTT.
-{% endhint %}
-
-### Publish/Subscribe
-
-The initiator will use the channel for both sending and receiving information on the provided resource identifier. It will allow the initiator to both publish and receive information from the same stream, creating a bidirectional flow over the resource. 
-
-
+With the `Start Stream` there is also a `Stream Id`, but it is kept until the Stream channel is done, i.e., one side request a [`Stop Stream`](stop-stream.md). So, all the messages sent over an established stream, either with [`Stream Sample`]() or [`Stream Event`](stream-event.md), will include the `Stream Id` established in the `Start Stream` request. This allows to save bandwidth, as it is not required to send the resource identifier over and over again.
 
 ## Request
 
-
+### Header
 
 | Field | Value | Description |
 | :--- | :--- | :--- |
@@ -51,86 +23,84 @@ The initiator will use the channel for both sending and receiving information on
 
 ### Body
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Field</th>
-      <th style="text-align:left">Identifier</th>
-      <th style="text-align:left">Type</th>
-      <th style="text-align:left">Mandatory</th>
-      <th style="text-align:left">Value</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left"><b>Stream Id</b>
-      </td>
-      <td style="text-align:left">0x01</td>
-      <td style="text-align:left"><a href="../../definitions.md#varint">varint</a>
-      </td>
-      <td style="text-align:left">Yes</td>
-      <td style="text-align:left">Stream identifier to be used within the stream life-time.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>Resource </b>
-      </td>
-      <td style="text-align:left">0x02</td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">First Time</td>
-      <td style="text-align:left">A string or array of strings with the resource identifier, i.e., &quot;temperature&quot;.
-        It is only mandatory the first time the stream is opened. Following Start
-        Streams over the same Stream Id can be used fo reconfigure the interval,
-        so it is not required to specify again the resource.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><del>Interval </del><b>Parameters</b>
-      </td>
-      <td style="text-align:left">0x03</td>
-      <td style="text-align:left">&lt;del&gt;&lt;/del&gt;<a href="../../definitions.md#varint"><del>varint</del></a>&lt;del&gt;&lt;/del&gt;</td>
-      <td
-      style="text-align:left">No</td>
-        <td style="text-align:left"><del>Sampling interval in seconds if the flow is subscribe. If the field is not present or zero,  just allows the target resource to stream the resource as considered, i.e., when there is an event. </del>
-        </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>Scope</b>
-      </td>
-      <td style="text-align:left">0x04</td>
-      <td style="text-align:left"><a href="../../definitions.md#varint">varint</a>
-      </td>
-      <td style="text-align:left">No</td>
-      <td style="text-align:left">
-        <p>0: Subscribe (default)</p>
-        <p>1: Publish</p>
-        <p>2: Publish/Subscribe</p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-### Example 
-
-TBD
+| Name | Field | Type | Mandatory | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| **Stream Id** | 0x01 | [varint](../../definitions.md#varint) | Yes | Stream identifier to be used within the stream life-time. |
+| **Parameters** | 0x02 | [any](../../definitions.md#any) | No | Start stream parameters. |
+| **Resource**  | 0x03 | \*\*\*\*[**any**](../../definitions.md#any)\*\*\*\* | Yes | A string or array of strings with the resource identifier, i.e., "temperature". |
 
 ## Response
 
 | Message | Description |
 | :--- | :--- |
-| \*\*\*\*[**Ok**](../ok.md)\*\*\*\* | Should answer with an OK if it is able to stream the requested resource at the specified interval. It must contain the Stream Id specified in this message. |
-| \*\*\*\*[**Error**](../error.md)\*\*\*\* | Should answer with an Error if the target resource cannot be streamed at the specified interval. It must contain the Stream Id specified in this message. |
+| \*\*\*\*[**Ok**](../ok.md)\*\*\*\* | Should answer with an OK if it is able to stream the requested resource with the specified parameters. It must contain the Stream Id specified in this message. |
+| \*\*\*\*[**Error**](../error.md)\*\*\*\* | Should answer with an Error if the target resource cannot be streamed both if the resource does not exists or the provided parameters are unacceptable. It must contain the Stream Id specified in this message. |
 
-### Example
+## Example
 
 TBD
 
-## Stream Messages
+## Thinger.io
 
-| Message | Description |
-| :--- | :--- |
-| \*\*\*\*[**Stream Sample**](stream-sample.md)\*\*\*\* | If the resource has been configured with a sampling interval, it must send the data using the `Stream Sample` message, that represents a periodical sampling data over the stream.  |
-| \*\*\*\*[**Stream Event**](stream-event.md)\*\*\*\* | If the resource has been configured without a sampling interval, it must send the data using the `Stream Event` message, that represents a message over the stream.  |
-| \*\*\*\*[**Stop Stream**](stop-stream.md)\*\*\*\* | A `Stop Stream` can be sent anytime during the stream life-time to conclude the streaming. |
-| \*\*\*\*[**Start Stream**](start-stream.md)\*\*\*\* | A `Start Stream` can be sent anytime by the requester to reconfigure the sampling interval. In such case, should send only the Stream Identifier and the new Interval. |
+### Client Parameters
+
+Thinger.io defines some parameters when clients open streams over the server. In the Thinger.io implementation, clients can start streams to publish/subscribe to MQTT topics, or subscribe to server events.
+
+The possible
+
+| Name | Value | Description |
+| :--- | :--- | :--- |
+| MQTT Topic Subscribe | mqtt\_subscribe | The client is opening a stream to publish  in the MQTT topic specified in the resource field. |
+| MQTT Topic Publish | mqtt\_publish | The client is opening a stream to subscribe to the MQTT topic specified in the resource field. |
+| Server Event Subscribe | server\_event | The client is opening a stream to receive server events |
+| Device Resource | {"device\_resource": {"interval": n}} | The client is opening a stream to communicate to another device stream. |
+
+### Server Parameters
+
+Thinger.io defines some parameters when clients open streams over the server. In the Thinger.io implementation, clients can subscribe to MQTT topics, can subscribe to server events, or can subscribe to device resources
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Name</th>
+      <th style="text-align:left">Value</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">MQTT Topic Subscribe</td>
+      <td style="text-align:left">{&quot;scp&quot;: &quot;mqtt_subscribe&quot;}</td>
+      <td style="text-align:left">The client is opening a stream to publish in the MQTT topic specified
+        in the resource field.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">MQTT Topic Publish</td>
+      <td style="text-align:left">{&quot;scp&quot;: &quot;mqtt_publish&quot;}</td>
+      <td style="text-align:left">The client is opening a stream to subscribe to the MQTT topic specified
+        in the resource field.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">MQTT Topic Pub/Sub</td>
+      <td style="text-align:left">{&quot;scp&quot;: &quot;mqtt_pubsub&quot;}</td>
+      <td style="text-align:left">The client is opening a stream to both publish and receive data from the
+        the MQTT topic specified in the resource field.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Server Event Subscribe</td>
+      <td style="text-align:left">{&quot;scp&quot;: &quot;server_event&quot;}</td>
+      <td style="text-align:left">The client is opening a stream to receive server events</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Device Resource</td>
+      <td style="text-align:left">
+        <p>{&quot;scp&quot;: &quot;device_resource&quot;,</p>
+        <p>&quot;params&quot;: {&quot;interval&quot;: n}}</p>
+      </td>
+      <td style="text-align:left">The client is opening a stream to comunicate to another device s</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Client Implementation notes
 

@@ -4,12 +4,12 @@ description: Description of IOTMP message header.
 
 # Message Header
 
-Each IOTMP message contains a header that describes the [Message Type](message-header.md#message-type) and its length over the wire. The minimum header length is 2 bytes.
+Each IOTMP message contains a header that describes the[ Type](message-header.md#message-type) and its [Size ](message-header.md#message-size)over the wire. The minimum header length is 2 bytes.
 
 | Field | Type | Description |
 | :--- | :--- | :--- |
 | **Message Type** | [varint](../definitions.md#varint) | Specifies the [Message Type](message-header.md#message-types).  |
-| **Remaining Length** | [varint](../definitions.md#varint) | Specifies the remaining bytes of the message, without taking into account the header. |
+| **Message Size** | [varint](../definitions.md#varint) | Specifies the [Message Size](message-header.md#message-size), without taking into account the header size. |
 
 ## Message Type
 
@@ -26,7 +26,9 @@ Each IOTMP message contains a header that describes the [Message Type](message-h
 | \*\*\*\*[**Start Stream**](../messages/streams/start-stream.md)\*\*\*\* | 0x08 | Start a stream for receiving updates on a specific resource |
 | \*\*\*\*[**Stop Stream**](../messages/streams/stop-stream.md)\*\*\*\* | 0x09 | Stop the ongoing stream |
 | \*\*\*\*[**Stream Event**](../messages/streams/stream-event.md)\*\*\*\* | 0x0A | Stream event |
-| \*\*\*\*[**Stream Sample**](../messages/streams/stream-sample.md)\*\*\*\* | 0x0B | Stream a scheduled sample |
+| \*\*\*\*[**Stream Sample**]()\*\*\*\* | 0x0B | Stream a scheduled sample |
 
-## Remaining Length
+## Message Size
+
+This field specifies the message size in bytes, that is, the remaining number of bytes on the stream.
 

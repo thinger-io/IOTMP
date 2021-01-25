@@ -11,12 +11,10 @@
   * [Disconnect](messages/disconnect.md)
   * [Keep Alive](messages/keep-alive.md)
   * [Run Resource](messages/run.md)
-  * [Resource Action](messages/resource-action.md)
   * [Describe Resources](messages/describe.md)
   * [Resource Streams](messages/streams/README.md)
     * [Start Stream](messages/streams/start-stream.md)
     * [Stop Stream](messages/streams/stop-stream.md)
-    * [Stream Sample](messages/streams/stream-sample.md)
-    * [Stream Event](messages/streams/stream-event.md)
+    * [Stream Data](messages/streams/stream-event.md)
 * [Definitions](definitions.md)
 
