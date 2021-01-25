@@ -45,20 +45,27 @@ TBD
 
 ### Server Scopes
 
-Thinger.io server defines some scopes when clients open streams over the server. In the Thinger.io implementation, clients can start streams to publish/subscribe to MQTT topics, subscribe to server events, or other device resources, etc. Possible scopes in Thinger.io are:
+Thinger.io server defines some scopes when clients open streams over the server. In the Thinger.io implementation, clients can start streams to publish/subscribe to MQTT topics, subscribe to server events, or other device resources, etc. 
 
-| Value | Description |  |
+The following table specifies the available scopes in the Thinger.io server \(sent by Thinger.io clients\):
+
+| Scope | Value | Description |
 | :--- | :--- | :--- |
 | MQTT Topic Subscribe | 0x01 | The client is opening a stream to publish  in the MQTT topic specified in the resource field. |
 | MQTT Topic Publish | 0x02 | The client is opening a stream to subscribe to the MQTT topic specified in the resource field. |
-| Server Event Subscribe | 0x03 | The client is opening a stream to receive server events specified in resource. |
-| Device Property Update | 0x04 | The client is opening a stream to receive device property updates. |
+| Server Event Subscribe | 0x03 | The client is opening a stream to receive server events specified in resource field. |
+| Device Property Update | 0x04 | The client is opening a stream to receive property updates from the one specified in the resource field. |
 
 ### Client Scopes
 
-| Value | Description |  |
+Thinger.io clients defines resources that can be streamed in two different ways. One way allows starting a stream, so the resource is periodically sampled at a specified interval. The other way allow opening a stream to a resource, that is streamed just when it is necessary \(defined by the client implementation\). 
+
+The following table specifies the available scopes in a Thinger.io client \(sent by Thinger.io server\):
+
+| Scope | Value | Description |
 | :--- | :--- | :--- |
-| Device Resource | 0x00 | The server is opening a stream to a device resource. |
+| Resource Stream | 0x00 | The server is opening a stream to a client resource |
+| Resource Sampling | 0x01 | The server is opening a stream to a device resource. |
 
 ### Resource definition
 
