@@ -22,6 +22,8 @@ Streaming functionality has 4 messages defined to start and stop streams, and to
 
 {% page-ref page="stop-stream.md" %}
 
+{% page-ref page="stream-sample.md" %}
+
 {% page-ref page="stream-event.md" %}
 
 ## Use Cases

@@ -19,12 +19,11 @@ This message allows discovering such resources, like its names, function type, i
 
 ### Body
 
-| Name | Field | Type | Mandatory | Description |
+| Field | Identifier | Type | Mandatory | Value |
 | :--- | :--- | :--- | :--- | :--- |
 | **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | [Stream identifier](../definitions.md#stream-identifier). |
-| **Parameters** | 0x02 | any | No | Params |
-| **Resource**  | 0x03 | string | No | [Resource identifier](../definitions.md#resource-definition).  |
-| \*\*\*\* |  |  |  |  |
+| **Resource**  | 0x02 |  | No | [Resource identifier](../definitions.md#resource-definition).  |
+| **Parameters** | 0x04 |  | No | Params |
 
 ## Response \(Resources\)
 

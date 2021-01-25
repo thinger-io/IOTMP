@@ -21,12 +21,11 @@ Each IOTMP message contains a header that describes the[ Type](message-header.md
 | [**Connect**](../messages/connect.md)\*\*\*\* | 0x03 | Establish a connection and its parameters |
 | \*\*\*\*[**Disconnect**](../messages/disconnect.md)\*\*\*\* | 0x04 | Disconnect the current connection |
 | \*\*\*\*[**Keep Alive**](../messages/keep-alive.md)\*\*\*\* | 0x05 | Keep connection alive |
-| \*\*\*\*[**Run Resource**](../messages/run.md)\*\*\*\* | 0x06 | Execute a resource on the target endpoint |
-| \*\*\*\*[**Describe Resources**](../messages/describe.md)\*\*\*\* | 0x07 | Describe available resources on the target endpoint |
-| \*\*\*\*[**Start Stream**](../messages/streams/start-stream.md)\*\*\*\* | 0x08 | Start a stream for receiving updates on a specific resource |
+| \*\*\*\*[**Run Resource**](../messages/run.md)\*\*\*\* | 0x06 | Execute a resource |
+| \*\*\*\*[**Describe Resources**](../messages/describe.md)\*\*\*\* | 0x07 | Describe available resources |
+| \*\*\*\*[**Start Stream**](../messages/streams/start-stream.md)\*\*\*\* | 0x08 | Start a stream on the specified resource |
 | \*\*\*\*[**Stop Stream**](../messages/streams/stop-stream.md)\*\*\*\* | 0x09 | Stop the ongoing stream |
-| \*\*\*\*[**Stream Event**](../messages/streams/stream-event.md)\*\*\*\* | 0x0A | Stream event |
-| \*\*\*\*[**Stream Sample**]()\*\*\*\* | 0x0B | Stream a scheduled sample |
+| \*\*\*\*[**Stream Data**](../messages/streams/stream-event.md)\*\*\*\* | 0x0A | Stream data |
 
 ## Message Size
 
