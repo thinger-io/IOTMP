@@ -6,8 +6,6 @@ description: Message used to represent information transmitted over a stream.
 
 ## Message
 
-~~A `Stream Data` message represents an event sample of a resource. For example, if a server request a client resource, i.e., "temperature" without specifying interval, the client should send a `Stream Event` when considered by device, i.e, a periodical interval defined by its own, when the value changes significantly, an event is detected, and so on.~~
-
 ### Header
 
 | Field | Value | Description |
@@ -26,7 +24,7 @@ description: Message used to represent information transmitted over a stream.
 
 ## Thinger.io
 
-In thinger.io, clients streaming resources establish the following scopes to help the server identifying the source of information while sending data.
+In thinger.io, clients streaming resources establish the following parameters to help the server identifying the source of information while sending data.
 
 ### Parameters
 
@@ -35,5 +33,5 @@ In thinger.io, clients streaming resources establish the following scopes to hel
 | **Resource Input** | 0x01 | Stream data represents the input of the stream resource. |
 | **Resource Output** | 0x02 | Stream data represents the output of the stream resource. |
 
-This help the server to determine if the information coming from a resource stream, comes from an scheduled sampling, or it has been generated as a control response. Example: One client over ws requesting by stream interval, and other by events. 
+
 
