@@ -4,6 +4,11 @@ description: This section describes the body encoding inside IOTMP.
 
 # Message Body
 
+|  |  |  |
+| :--- | :--- | :--- |
+|  |  |  |
+|  |  |  |
+
 Each IOTMP message body is basically a series of `key-value` pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
 
 So, the message body is composed of a variable number of fields, each one with a key-value pair:
@@ -11,7 +16,7 @@ So, the message body is composed of a variable number of fields, each one with a
 | Field | Type | Description |
 | :--- | :--- | :--- |
 | **Key** | [varint](../definitions.md#varint) | Specifies the field identifier and the value type. |
-| **Value** | value | The field value uses to contain integers or documents formatted with JSON or other binary representations. |
+| **Value** | [any](../definitions.md#any) | The field value uses to contain integers or documents formatted with JSON or other binary representations. |
 
 ## Pair Key
 
@@ -27,13 +32,13 @@ The following wire types are supported inside IOTMP:
 
 | Type | Value | Used For |
 | :--- | :--- | :--- |
-| Varint | 0x00 | int32, int64, uint32, uint64, sint32, sint64, bool, enum |
-| PSON | 0x01 | Values in [PSON ](https://github.com/thinger-io/Protoson)format |
-| JSON | 0x02 | Values in [JSON ](https://www.json.org)format |
-| MESSAGEPACK | 0x03 | Values in [MessagePack ](https://msgpack.org/)format |
-| BSON | 0x04 | Values in [BSON ](http://bsonspec.org/)format |
-| CBOR | 0x05 | Values in [CBOR ](https://cbor.io/)format |
-| UBJSON | 0x06 | Values in [UBJSON ](https://ubjson.org/)format |
+| Varint | 0x00 | Positive number encoded as [Varint](../definitions.md#varint)  |
+| Signed Varint | 0x01 | Negative number encoded as [Varint](../definitions.md#varint) |
+| String | 0x02 | Length delimited string: Varint \(specifying size\) + Buffer |
+| Bytes | 0x03 | Length delimited bytes: Varint \(specifying size\) + Buffer |
+| Float | 0x04 | \(32 bits\) IEEE 754 Single-precision floating-point |
+| Double | 0x05 | \(64 bits\) IEEE 754 Double-precision floating-point |
+| Custom Encoding | 0x06 | Length delimited bytes: Varint \(specifying size\) + Buffer |
 
 ### Field Identifier
 

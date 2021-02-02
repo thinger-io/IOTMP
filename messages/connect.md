@@ -6,7 +6,7 @@ description: Message to authenticate and negotiate connection parameters.
 
 ## Request
 
-A `Connect` message MUST be sent from the client to the server to authenticate and negotiate the connection parameters. This message MUST be the first one after establishing the connection. If any other message or data is received, the server MUST close the connection immediately.
+A [Connect ](connect.md)message MUST be sent from the client to the server to authenticate and negotiate the connection parameters. This message MUST be the first one after establishing the connection. If any other message or data is received, the server MUST close the connection immediately.
 
 ### Header
 
@@ -17,15 +17,84 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
 
 ### Body
 
-| Field | Identifier | Type | Mandatory | Value |
-| :--- | :--- | :--- | :--- | :--- |
-| **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | Connect [Stream identifier](../definitions.md#stream-identifier) |
-| **Auth Type** | 0x02 | [varint](../definitions.md#varint) | No | Depending on the value, the authentication is done over different mechanisms, like credentials, certificates, token, etc. |
-| **Auth Info** | 0x03 |  | Yes | Authentication payload as defined by the `Auth Type` field. By default, the `Auth Type` is 1 \(credentials\), so the `Auth Info` MUST contain an array with the username, device identifier, and credentials.  |
-| **Keep Alive** | 0x04 | [varint](../definitions.md#varint) | No | Establish a Keep Alive interval in seconds \(60 seconds by default\). |
-| **Payload Encoding** | 0x05 | [varint](../definitions.md#varint) | No | Defines the encoding mechanism that will be used for encoding `Json` fields. |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Name</th>
+      <th style="text-align:left">Field</th>
+      <th style="text-align:left">Type</th>
+      <th style="text-align:left">Mandatory</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><b>Stream Id</b>
+      </td>
+      <td style="text-align:left">0x01</td>
+      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
+      </td>
+      <td style="text-align:left">Yes</td>
+      <td style="text-align:left">Connect <a href="../definitions.md#stream-identifier">Stream identifier</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Parameters</b>
+      </td>
+      <td style="text-align:left">0x02</td>
+      <td style="text-align:left"><a href="../definitions.md#any">any</a>
+      </td>
+      <td style="text-align:left">No</td>
+      <td style="text-align:left">Connect parameters, that can be used to identify the authentication type.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Credentials</b>
+      </td>
+      <td style="text-align:left">0x03</td>
+      <td style="text-align:left"><a href="../definitions.md#stream">any</a>
+      </td>
+      <td style="text-align:left">Yes</td>
+      <td style="text-align:left">Authentication payload to log-in with the server.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Keep Alive</b>
+      </td>
+      <td style="text-align:left">0x04</td>
+      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
+      </td>
+      <td style="text-align:left">No</td>
+      <td style="text-align:left">
+        <p>Establish a Keep Alive interval in seconds.</p>
+        <p><b>e</b>N0x05</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Encoding</b>
+      </td>
+      <td style="text-align:left">0x05</td>
+      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
+      </td>
+      <td style="text-align:left">No</td>
+      <td style="text-align:left">Defines the encoding mechanism that will be used for encoding <a href="../definitions.md#any">any </a>fields
+        sent along the communication.</td>
+    </tr>
+  </tbody>
+</table>
 
-### Field Values
+## Response
+
+| Message | Description |
+| :--- | :--- |
+| \*\*\*\*[**Ok**](ok.md)\*\*\*\* | The server should answer with an OK if it is able to authenticate the client and the negotiated parameters are acceptable. It must contain the Stream Id specified in this message. |
+| \*\*\*\*[**Error**](error.md)\*\*\*\* | The server should answer with an Error if it is not able to authenticate the client or the negotiated parameters are not acceptable. It must contain the Stream Id specified in this message. |
+
+## 
+
+## Thinger.io
+
+### Request
+
+In Thinger.io server implementation, there are the following default values and parameters:
 
 <table>
   <thead>
@@ -37,15 +106,14 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left"><b>Auth Type</b>
+      <td style="text-align:left"><b>Parameters</b>
       </td>
-      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
+      <td style="text-align:left">&lt;b&gt;&lt;/b&gt;<a href="../definitions.md#varint">varint</a>
       </td>
       <td style="text-align:left">
         <p>1: Auth Info contains an array with [&quot;username&quot;, &quot;device&quot;,
           &quot;credential&quot;].</p>
-        <p>2: Auth Info contain a string with the client certificate.</p>
-        <p>3: Auth Info contains a string with a Token.</p>
+        <p>2: Auth Info contains a string with a token.</p>
         <p><b>Default: 1</b>
         </p>
       </td>
@@ -67,26 +135,32 @@ A `Connect` message MUST be sent from the client to the server to authenticate a
       <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
       </td>
       <td style="text-align:left">
-        <p>1: DATA type is encoded with PSON format</p>
-        <p>2: DATA encoded with JSON format</p>
-        <p>3: DATA encoded with MessagePack format</p>
-        <p>4: DATA encoded with CBOR format</p>
-        <p>5: DATA encoded with UBJSON format</p>
-        <p><b>Default: 1</b>
-        </p>
+        <p>0x00: Reserved</p>
+        <p>0x01: PSON format (Default)</p>
+        <p>0x02: JSON format</p>
+        <p>0x03: MessagePack format</p>
+        <p>0x04: BSON format</p>
+        <p>0x05: CBOR format</p>
+        <p>0x06: UBJSON format</p>
       </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"></td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"></td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
+      <td style="text-align:left"></td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left"></td>
     </tr>
   </tbody>
 </table>
 
-## Response
-
-| Message | Description |
-| :--- | :--- |
-| \*\*\*\*[**Ok**](ok.md)\*\*\*\* | The server should answer with an OK if it is able to authenticate the client and the negotiated parameters are acceptable. It must contain the Stream Id specified in this message. |
-| \*\*\*\*[**Error**](error.md)\*\*\*\* | The server should answer with an Error if it is not able to authenticate the client or the negotiated parameters are not acceptable. It must contain the Stream Id specified in this message. |
-
-## Examples
-
-
+### Response
 
