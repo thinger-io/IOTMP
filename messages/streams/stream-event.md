@@ -34,9 +34,6 @@ In thinger.io, clients streaming resources establish the following scopes to hel
 | :--- | :--- | :--- |
 | **Resource Input** | 0x01 | Stream data represents the `current` input of the stream resource. |
 | **Resource Output** | 0x02 | Stream data represents the `current` output of the stream resource. |
-| **Sampling Input** | 0x03 | Stream data represents the `sampled` input of the stream resource. |
-| **Sampling Output** | 0x04 | Stream data represents the `sampled` output of the stream resource. |
-|  |  |  |
 
 This help the server to determine if the information coming from a resource stream, comes from an scheduled sampling, or it has been generated as a control response. Example: One client over ws requesting by stream interval, and other by events. 
 
