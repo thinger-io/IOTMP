@@ -4,11 +4,6 @@ description: This section describes the body encoding inside IOTMP.
 
 # Message Body
 
-|  |  |  |
-| :--- | :--- | :--- |
-|  |  |  |
-|  |  |  |
-
 Each IOTMP message body is basically a series of `key-value` pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a _wire type_ that provides just enough information to find the length of the following value. In most language implementations this key is referred to as a tag.
 
 So, the message body is composed of a variable number of fields, each one with a key-value pair:
@@ -16,7 +11,7 @@ So, the message body is composed of a variable number of fields, each one with a
 | Field | Type | Description |
 | :--- | :--- | :--- |
 | **Key** | [varint](../definitions.md#varint) | Specifies the field identifier and the value type. |
-| **Value** | [any](../definitions.md#any) | The field value uses to contain integers or documents formatted with JSON or other binary representations. |
+| **Value** | [any](../definitions.md#any) | Contains the actual payload of the field. |
 
 ## Pair Key
 
