@@ -17,69 +17,13 @@ A [Connect ](connect.md)message MUST be sent from the client to the server to au
 
 ### Body
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Name</th>
-      <th style="text-align:left">Field</th>
-      <th style="text-align:left">Type</th>
-      <th style="text-align:left">Mandatory</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left"><b>Stream Id</b>
-      </td>
-      <td style="text-align:left">0x01</td>
-      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
-      </td>
-      <td style="text-align:left">Yes</td>
-      <td style="text-align:left">Connect <a href="../definitions.md#stream-identifier">Stream identifier</a>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>Parameters</b>
-      </td>
-      <td style="text-align:left">0x02</td>
-      <td style="text-align:left"><a href="../definitions.md#any">any</a>
-      </td>
-      <td style="text-align:left">No</td>
-      <td style="text-align:left">Connect parameters, that can be used to identify the authentication type.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>Credentials</b>
-      </td>
-      <td style="text-align:left">0x03</td>
-      <td style="text-align:left"><a href="../definitions.md#stream">any</a>
-      </td>
-      <td style="text-align:left">Yes</td>
-      <td style="text-align:left">Authentication payload to log-in with the server.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>Keep Alive</b>
-      </td>
-      <td style="text-align:left">0x04</td>
-      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
-      </td>
-      <td style="text-align:left">No</td>
-      <td style="text-align:left">
-        <p>Establish a Keep Alive interval in seconds.</p>
-        <p><b>e</b>N0x05</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><b>Encoding</b>
-      </td>
-      <td style="text-align:left">0x05</td>
-      <td style="text-align:left"><a href="../definitions.md#varint">varint</a>
-      </td>
-      <td style="text-align:left">No</td>
-      <td style="text-align:left">Defines the encoding mechanism that will be used for encoding <a href="../definitions.md#any">any </a>fields
-        sent along the communication.</td>
-    </tr>
-  </tbody>
-</table>
+| Name | Field | Type | Mandatory | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| **Stream Id** | 0x01 | [varint](../definitions.md#varint) | Yes | Connect [Stream identifier](../definitions.md#stream-identifier). |
+| **Parameters** | 0x02 | [any](../definitions.md#any) | No | Connect parameters, that can be used to identify the authentication type. |
+| **Credentials** | 0x03 | [any](../definitions.md#stream) | Yes | Authentication payload to log-in with the server. |
+| **Keep Alive** | 0x04 | [varint](../definitions.md#varint) | No | Establish a Keep Alive interval in seconds. |
+| **Encoding** | 0x05 | [any](../definitions.md#any) | No | Defines the encoding mechanism that will be used when sending fields with Wire-Type of 0x06 \(Negotiated Encoding\) |
 
 ## Response
 
@@ -87,8 +31,6 @@ A [Connect ](connect.md)message MUST be sent from the client to the server to au
 | :--- | :--- |
 | \*\*\*\*[**Ok**](ok.md)\*\*\*\* | The server should answer with an OK if it is able to authenticate the client and the negotiated parameters are acceptable. It must contain the Stream Id specified in this message. |
 | \*\*\*\*[**Error**](error.md)\*\*\*\* | The server should answer with an Error if it is not able to authenticate the client or the negotiated parameters are not acceptable. It must contain the Stream Id specified in this message. |
-
-## 
 
 ## Thinger.io
 

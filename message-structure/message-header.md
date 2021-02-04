@@ -6,14 +6,12 @@ description: Description of IOTMP message header.
 
 Each IOTMP message contains a header that describes the[ Type](message-header.md#message-type) and its [Size ](message-header.md#message-size)over the wire. The minimum header length is 2 bytes.
 
-| Field | Type | Mandatory | Description |
-| :--- | :--- | :--- | :--- |
-| **Message Type** | [varint](../definitions.md#varint) | Yes | Specifies the [Message Type](message-header.md#message-types).  |
-| **Message Size** | [varint](../definitions.md#varint) | Yes | Specifies the [Message Size](message-header.md#message-size), without taking into account the header size. |
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| **Message Type** | [varint](../definitions.md#varint) | Specifies the [Message Type](message-header.md#message-types).  |
+| **Message Size** | [varint](../definitions.md#varint) | Specifies the [Message Size](message-header.md#message-size), without taking into account the header size. |
 
 ## Message Type
-
-A messsage type can be any of the following:
 
 | Message Type | Value | Description |
 | :--- | :--- | :--- |
@@ -31,5 +29,5 @@ A messsage type can be any of the following:
 
 ## Message Size
 
-This field specifies the message size in bytes, that is, the remaining number of bytes on the stream \(including zero if the message has no remaining bytes\).
+This field specifies the message size in bytes, that is, the remaining number of bytes on the stream.
 
