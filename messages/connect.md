@@ -36,7 +36,7 @@ A [Connect ](connect.md)message MUST be sent from the client to the server to au
 
 ### Request
 
-In Thinger.io server implementation, there are the following default values and parameters:
+In the Thinger.io server implementation, there are the following default values and parameters:
 
 <table>
   <thead>
@@ -56,7 +56,7 @@ In Thinger.io server implementation, there are the following default values and 
         <p>1: Auth Info contains an array with [&quot;username&quot;, &quot;device&quot;,
           &quot;credential&quot;].</p>
         <p>2: Auth Info contains a string with a token.</p>
-        <p><b>Default: 1</b>
+        <p><b>Default: 1 (Username/Password Credentials)</b>
         </p>
       </td>
     </tr>
@@ -67,7 +67,7 @@ In Thinger.io server implementation, there are the following default values and 
       </td>
       <td style="text-align:left">
         <p>Number of expected seconds between keep alives.</p>
-        <p><b>Default: 60</b>
+        <p><b>Default: 60 seconds</b>
         </p>
       </td>
     </tr>
@@ -78,13 +78,37 @@ In Thinger.io server implementation, there are the following default values and 
       </td>
       <td style="text-align:left">
         <p>0x00: Reserved</p>
-        <p>0x01: PSON format (Default)</p>
-        <p>0x02: JSON format</p>
-        <p>0x03: MessagePack format</p>
-        <p>0x04: BSON format</p>
-        <p>0x05: CBOR format</p>
-        <p>0x06: UBJSON format</p>
+        <p>0x01: PSON</p>
+        <p>0x02: JSON</p>
+        <p>0x03: MessagePack</p>
+        <p>0x04: BSON</p>
+        <p>0x05: CBOR</p>
+        <p>0x06: UBJSON</p>
+        <p><b>Default: 0x01 (PSON)</b>
+        </p>
       </td>
+    </tr>
+  </tbody>
+</table>
+
+### Response Ok
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Field</th>
+      <th style="text-align:left">Type</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">OK</td>
+      <td style="text-align:left">
+        <p>Parameters: None</p>
+        <p>Payload: None</p>
+      </td>
+      <td style="text-align:left">The server agree the Connect</td>
     </tr>
     <tr>
       <td style="text-align:left"></td>
@@ -104,5 +128,57 @@ In Thinger.io server implementation, there are the following default values and 
   </tbody>
 </table>
 
-### Response
+### Response Error
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Field</th>
+      <th style="text-align:left">Type</th>
+      <th style="text-align:left">Values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><b>Unknown</b>
+      </td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">The server</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Redirect</b>
+      </td>
+      <td style="text-align:left">
+        <p>Parameters: 1</p>
+        <p>Payload: Server to connect</p>
+      </td>
+      <td style="text-align:left">
+        <p>The server requires the device to connect to another host, i.e., for load
+          balancing, route to a nearest host, etc.</p>
+        <p><b>Examples:</b>
+        </p>
+        <p>iotmp://newserver.io</p>
+        <p>iotmps://newserver.io</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Bad Credentials</b>
+      </td>
+      <td style="text-align:left">Parameters: 2</td>
+      <td style="text-align:left">The provided credentials are not valid in the server.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Invalid Keep Alive</b>
+      </td>
+      <td style="text-align:left">Parameters: 3</td>
+      <td style="text-align:left">The negotiated keep-alive is incorrect.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><b>Bad Encoding</b>
+      </td>
+      <td style="text-align:left">Parameters: 4</td>
+      <td style="text-align:left">The negotiated encoding is not supported by the server.</td>
+    </tr>
+  </tbody>
+</table>
 
