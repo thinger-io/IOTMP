@@ -28,7 +28,6 @@ With the `Start Stream` there is also a `Stream Id`, but it is kept until the St
 | **Stream Id** | 0x01 | [varint](../../definitions.md#varint) | Yes | Stream identifier to be used within the stream life-time. |
 | **Parameters** | 0x02 | [any](../../definitions.md#any) | No | Start stream parameters. |
 | **Resource**  | 0x03 | \*\*\*\*[**any**](../../definitions.md#any)\*\*\*\* | Yes | A string or array of strings with the resource identifier, i.e., "temperature". |
-| **Scope** | 0x04 | [any](../../definitions.md#any) | No | Any identifier that specifies the `Start Stream` scope. |
 
 ## Response
 
@@ -43,29 +42,38 @@ TBD
 
 ## Thinger.io
 
-### Server Scopes
+### Server Streams
 
-Thinger.io server defines some scopes when clients open streams over the server. In the Thinger.io implementation, clients can start streams to publish/subscribe to MQTT topics, subscribe to server events, or other device resources, etc. 
+In the Thinger.io implementation, clients can start streams to publish/subscribe to MQTT topics, subscribe to server events, or other device resources. These streams can be configured over parameters. 
 
-The following table specifies the available scopes in the Thinger.io server \(sent by Thinger.io clients\):
+#### MQTT Topics
 
-| Scope | Value | Description |
-| :--- | :--- | :--- |
-| MQTT Topic Subscribe | 0x01 | The client is opening a stream to publish  in the MQTT topic specified in the resource field. |
-| MQTT Topic Publish | 0x02 | The client is opening a stream to subscribe to the MQTT topic specified in the resource field. |
-| Server Event Subscribe | 0x03 | The client is opening a stream to receive server events specified in resource field. |
-| Device Property Update | 0x04 | The client is opening a stream to receive property updates from the one specified in the resource field. |
+A device can open a Stream to both publish and subscribe. The topic is specified in the resource field of the message, and the parameters should be configured as the following. 
 
-### Client Scopes
+```javascript
+{
+  "type" : "mqtt",
+  "scope" : ["publish", "subscribe"]
+}
+```
 
-Thinger.io clients defines resources that can be streamed in two different ways. One way allows starting a stream, so the resource is periodically sampled at a specified interval. The other way allow opening a stream to a resource, that is streamed just when it is necessary \(defined by the client implementation\). 
+#### Server Events
 
-The following table specifies the available scopes in a Thinger.io client \(sent by Thinger.io server\):
+```javascript
+{ 
+  "type" : "event"
+}
+```
 
-| Scope | Value | Description |
-| :--- | :--- | :--- |
-| Resource Stream | 0x00 | The server is opening a stream to a client resource |
-| Resource Sampling | 0x01 | The server is opening a stream to a device resource. |
+#### Device Resource
+
+```javascript
+{ 
+  "type" : "device",
+  "id" : "device_id",
+  "interval": 5
+}
+```
 
 ### Resource definition
 
