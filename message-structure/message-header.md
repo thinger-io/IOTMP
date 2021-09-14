@@ -6,19 +6,21 @@ description: Description of IOTMP message header.
 
 Each IOTMP message contains a header that describes the[ Type](message-header.md#message-type) and its [Size ](message-header.md#message-size)over the wire. The minimum header length is 2 bytes.
 
-| Field | Type | Description |
-| :--- | :--- | :--- |
-| **Message Type** | [varint](../definitions.md#varint) | Specifies the [Message Type](message-header.md#message-types).  |
-| **Message Size** | [varint](../definitions.md#varint) | Specifies the [Message Size](message-header.md#message-size), without taking into account the header size. |
+| Field | Type | Mandatory | Description |
+| :--- | :--- | :--- | :--- |
+| **Message Type** | [varint](../definitions.md#varint) | Yes | Specifies the [Message Type](message-header.md#message-types).  |
+| **Message Size** | [varint](../definitions.md#varint) | Yes | Specifies the [Message Size](message-header.md#message-size), without taking into account the header size. |
 
 ## Message Type
+
+A messsage type can be any of the following:
 
 | Message Type | Value | Description |
 | :--- | :--- | :--- |
 | **Reserved** | 0x00 | Reserved field |
 | \*\*\*\*[**Ok**](../messages/ok.md)\*\*\*\* | 0x01 | Success |
 | \*\*\*\*[**Error**](../messages/error.md)\*\*\*\* | 0x02 | Error |
-| [**Connect**](../messages/connect.md)\*\*\*\* | 0x03 | Establish a connection and its parameters |
+| [**Connect**](../messages/connect.md)\*\*\*\* | 0x03 | Initiates a connection and its parameters |
 | \*\*\*\*[**Disconnect**](../messages/disconnect.md)\*\*\*\* | 0x04 | Disconnect the current connection |
 | \*\*\*\*[**Keep Alive**](../messages/keep-alive.md)\*\*\*\* | 0x05 | Keep connection alive |
 | \*\*\*\*[**Run Resource**](../messages/run.md)\*\*\*\* | 0x06 | Execute a resource |
@@ -29,5 +31,5 @@ Each IOTMP message contains a header that describes the[ Type](message-header.md
 
 ## Message Size
 
-This field specifies the message size in bytes, that is, the remaining number of bytes on the stream.
+This field specifies the message size in bytes, that is, the remaining number of bytes on the stream \(including zero if the message has no remaining bytes\).
 
