@@ -24,7 +24,6 @@ A [Connect ](connect.md)message MUST be sent from the client to the server to au
 | **Credentials** | 0x03 | [any](../definitions.md#stream) | Yes | Authentication payload to log-in with the server. |
 | **Keep Alive** | 0x04 | [varint](../definitions.md#varint) | No | Establish a Keep Alive interval in seconds. |
 | **Encoding** | 0x05 | [any](../definitions.md#any) | No | Defines the encoding mechanism that will be used when sending fields with Wire-Type of 0x06 \(Negotiated Encoding\) |
-| **Version** | 0x06 | [varint](../definitions.md#varint) | No | Specifies the protocol version to be used. |
 
 ## Response
 

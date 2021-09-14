@@ -13,7 +13,7 @@ Each IOTMP message contains a header that describes the[ Type](message-header.md
 
 ## Message Type
 
-A messsage type can be any of the following:
+A message type can be any of the following:
 
 | Message Type | Value | Description |
 | :--- | :--- | :--- |
