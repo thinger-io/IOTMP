@@ -1,5 +1,5 @@
 ---
-description: Description of IOTMP message header.
+description: IOTMP Message Header
 ---
 
 # Message Header

@@ -113,7 +113,7 @@ void loop() {
 }
 ```
 
-![Example ESP8266 running IOTMP for sending heading when there is a subtle difference.](<../../../.gitbook/assets/image (3).png>)
+![Example ESP8266 running IOTMP for sending heading when there is a subtle difference.](<../../.gitbook/assets/image (3).png>)
 
 ## Server Implementation notes
 

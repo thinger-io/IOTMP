@@ -1,3 +1,7 @@
+---
+description: IOTMP Message Structure
+---
+
 # Message Structure
 
 The IOTMP protocol works by exchanging a series of IOTMP messages in a defined way. This section describes the format of these packets.
