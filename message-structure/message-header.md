@@ -8,28 +8,13 @@ The **header** is a part of a message that contains information about the type o
 
 Each IOTMP message contains a header that describes the[ Type](message-header.md#message-type) and its [Size ](message-header.md#message-size)over the wire. The minimum header length is 2 bytes.
 
-| Field                                                      | Type                               | Mandatory | Description                                                                                                |
-| ---------------------------------------------------------- | ---------------------------------- | --------- | ---------------------------------------------------------------------------------------------------------- |
-| ****[**Message Type**](message-header.md#message-type)**** | [varint](../definitions.md#varint) | Yes       | Specifies the [Message Type](message-header.md#message-types).                                             |
-| ****[**Message Size**](message-header.md#message-size)**** | [varint](../definitions.md#varint) | Yes       | Specifies the [Message Size](message-header.md#message-size), without taking into account the header size. |
+<table><thead><tr><th width="179">Field</th><th width="111">Type</th><th width="134">Mandatory</th><th>Description</th></tr></thead><tbody><tr><td><a href="message-header.md#message-type"><strong>Message Type</strong></a></td><td><a href="../definitions.md#varint">varint</a></td><td>Yes</td><td>Specifies the <a href="message-header.md#message-types">Message Type</a>. </td></tr><tr><td><a href="message-header.md#message-size"><strong>Message Size</strong></a></td><td><a href="../definitions.md#varint">varint</a></td><td>Yes</td><td>Specifies the <a href="message-header.md#message-size">Message Size</a>, without taking into account the header size.</td></tr></tbody></table>
 
 ## Message Type
 
 A message type can be any of the following:
 
-| Message Type                                                    | Value | Description                               |
-| --------------------------------------------------------------- | ----- | ----------------------------------------- |
-| **Reserved**                                                    | 0x00  | Reserved field                            |
-| ****[**Ok**](../messages/ok.md)****                             | 0x01  | Success                                   |
-| ****[**Error**](../messages/error.md)****                       | 0x02  | Error                                     |
-| [**Connect**](../messages/connect.md)****                       | 0x03  | Initiates a connection and its parameters |
-| ****[**Disconnect**](../messages/disconnect.md)****             | 0x04  | Disconnect the current connection         |
-| ****[**Keep Alive**](../messages/keep-alive.md)****             | 0x05  | Keep connection alive                     |
-| ****[**Run Resource**](../messages/run.md)****                  | 0x06  | Execute a resource                        |
-| ****[**Describe Resources**](../messages/describe.md)****       | 0x07  | Describe available resources              |
-| ****[**Start Stream**](../messages/streams/start-stream.md)**** | 0x08  | Start a stream on the specified resource  |
-| ****[**Stop Stream**](../messages/streams/stop-stream.md)****   | 0x09  | Stop the ongoing stream                   |
-| ****[**Stream Data**](../messages/streams/stream-event.md)****  | 0x0A  | Stream data                               |
+<table><thead><tr><th width="229">Message Type</th><th width="130.33333333333331">Value</th><th>Description</th></tr></thead><tbody><tr><td><strong>Reserved</strong></td><td>0x00</td><td>Reserved field</td></tr><tr><td><a href="../messages/ok.md"><strong>Ok</strong></a></td><td>0x01</td><td>Success</td></tr><tr><td><a href="../messages/error.md"><strong>Error</strong></a></td><td>0x02</td><td>Error</td></tr><tr><td><a href="../messages/connect.md"><strong>Connect</strong></a></td><td>0x03</td><td>Initiates a connection and its parameters</td></tr><tr><td><a href="../messages/disconnect.md"><strong>Disconnect</strong></a></td><td>0x04</td><td>Disconnect the current connection</td></tr><tr><td><a href="../messages/keep-alive.md"><strong>Keep Alive</strong></a></td><td>0x05</td><td>Keep connection alive</td></tr><tr><td><a href="../messages/run.md"><strong>Run Resource</strong></a></td><td>0x06</td><td>Execute a resource</td></tr><tr><td><a href="../messages/describe.md"><strong>Describe Resources</strong></a></td><td>0x07</td><td>Describe available resources</td></tr><tr><td><a href="../messages/streams/start-stream.md"><strong>Start Stream</strong></a></td><td>0x08</td><td>Start a stream on the specified resource</td></tr><tr><td><a href="../messages/streams/stop-stream.md"><strong>Stop Stream</strong></a></td><td>0x09</td><td>Stop the ongoing stream</td></tr><tr><td><a href="../messages/streams/stream-event.md"><strong>Stream Data</strong></a></td><td>0x0A</td><td>Stream data</td></tr></tbody></table>
 
 ## Message Size
 

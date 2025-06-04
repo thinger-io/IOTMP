@@ -14,14 +14,11 @@ A **server** or broker can also define multiple resources that can be executed b
 
 ### Header
 
-| Field            | Value                              | Description              |
-| ---------------- | ---------------------------------- | ------------------------ |
-| **Message Type** | 0x06                               | Run                      |
-| **Message Size** | [varint](../definitions.md#varint) | Remaining Message Length |
+<table><thead><tr><th width="168">Field</th><th width="82.33333333333331">Value</th><th>Description</th></tr></thead><tbody><tr><td><strong>Message Type</strong></td><td>0x06</td><td>Run</td></tr><tr><td><strong>Message Size</strong></td><td><a href="../definitions.md#varint">varint</a></td><td>Remaining Message Length</td></tr></tbody></table>
 
 ### Body
 
-<table><thead><tr><th>Name</th><th>Field</th><th data-type="select">Type</th><th data-type="checkbox">Mandatory</th><th>Description</th></tr></thead><tbody><tr><td><strong>Resource</strong> </td><td>0x00</td><td></td><td>true</td><td><a href="../definitions.md#resource-identifier">Resource identifier</a>.</td></tr><tr><td><strong>Stream Id</strong></td><td>0x01</td><td></td><td>false</td><td><a href="../definitions.md#stream-identifier">Stream identifier</a>. If set, the target endpoint should answer to the run message. If not, it should not send back any response.</td></tr><tr><td><strong>Parameters</strong></td><td>0x02</td><td></td><td>false</td><td><a href="../definitions.md#resource-parameters">Resource parameters</a> to be supplied while executing  the resource.</td></tr><tr><td><strong>Payload</strong></td><td>0x03</td><td></td><td>false</td><td>The payload sent to the target resource.</td></tr></tbody></table>
+<table><thead><tr><th width="139">Name</th><th width="83">Field</th><th width="97">Type<select><option value="d8b0253b7149426c8cf0ed66d9fdf64f" label="any" color="blue"></option><option value="52a3abba3ca146318f76e894227193db" label="varint" color="blue"></option></select></th><th width="115" data-type="checkbox">Mandatory</th><th>Description</th></tr></thead><tbody><tr><td><strong>Resource</strong> </td><td>0x00</td><td><span data-option="d8b0253b7149426c8cf0ed66d9fdf64f">any</span></td><td>true</td><td><a href="../definitions.md#resource-identifier">Resource identifier</a>.</td></tr><tr><td><strong>Stream Id</strong></td><td>0x01</td><td><span data-option="52a3abba3ca146318f76e894227193db">varint</span></td><td>false</td><td><a href="../definitions.md#stream-identifier">Stream identifier</a>. If set, the target endpoint should answer to the run message. If not, it should not send back any response.</td></tr><tr><td><strong>Parameters</strong></td><td>0x02</td><td><span data-option="d8b0253b7149426c8cf0ed66d9fdf64f">any</span></td><td>false</td><td><a href="../definitions.md#resource-parameters">Resource parameters</a> to be supplied while executing  the resource.</td></tr><tr><td><strong>Payload</strong></td><td>0x03</td><td><span data-option="d8b0253b7149426c8cf0ed66d9fdf64f">any</span></td><td>false</td><td>The payload sent to the target resource.</td></tr></tbody></table>
 
 ## Responses
 

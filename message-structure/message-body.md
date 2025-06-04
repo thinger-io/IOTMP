@@ -12,10 +12,7 @@ Each IOTMP message consists basically on a series of `key-value` pairs. When a m
 
 So, the message body is composed of a variable number of fields, each one with a key-value pair:
 
-| Field                                      | Type                               | Description                                        |
-| ------------------------------------------ | ---------------------------------- | -------------------------------------------------- |
-| ****[**Key**](message-body.md#key)****     | [varint](../definitions.md#varint) | Specifies the field identifier and the value type. |
-| ****[**Value**](message-body.md#value)**** | [any](../definitions.md#any)       | Contains the actual payload of the field.          |
+<table><thead><tr><th width="96.33333333333331">Field</th><th width="76">Type</th><th>Description</th></tr></thead><tbody><tr><td><a href="message-body.md#key"><strong>Key</strong></a></td><td><a href="../definitions.md#varint">varint</a></td><td>Specifies the field identifier and the value type.</td></tr><tr><td><a href="message-body.md#value"><strong>Value</strong></a></td><td><a href="../definitions.md#any">any</a></td><td>Contains the actual payload of the field.</td></tr></tbody></table>
 
 ## Key
 
@@ -54,13 +51,7 @@ By default, IOTMP specifies 4 different wire types:
 * **JSON (0x02)**: Indicates that the value holds a JSON without any binary encoding.
 * **Negotiated (0x07)**: Indicates that the value holds a JSON encoded with a negotiated binary representation, i.e., MessagePack, CBOR, UBJSON.
 
-| Type           | Value                       | Used For                                                                                                                                                                                                                |
-| -------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Varint**     | 0x00                        | Positive number encoded as [varint](../definitions.md#varint). It is heavily used in the protocol for specifying fields like the stream identifier.                                                                     |
-| **PSON**       | 0x01                        | Value is encoded in PSON format. As PSON supports streaming decoding, the payload is encoded right away after the key.                                                                                                  |
-| **JSON**       | 0x02                        | Value is encoded in JSON format. The value is composed by a [varint](../definitions.md) (specifying total payload size) + the custom JSON payload.                                                                      |
-| **Reserved**   | <p>0x03  </p><p>to 0x06</p> | Reserved for future usage.                                                                                                                                                                                              |
-| **Negotiated** | 0x07                        | Value is encoded in the negotiated encoding format (see [Connect Message](../messages/connect.md)). The value is composed by a [varint](../definitions.md) (specifying total value size) + the custom encoded payload.  |
+<table><thead><tr><th width="185.33333333333331">Type</th><th width="79">Value</th><th>Used For</th></tr></thead><tbody><tr><td><strong>Varint</strong></td><td>0x00</td><td>Positive number encoded as <a href="../definitions.md#varint">varint</a>. It is heavily used in the protocol for specifying fields like the stream identifier.</td></tr><tr><td><strong>PSON</strong></td><td>0x01</td><td>Value is encoded in PSON format. As PSON supports streaming decoding, the payload is encoded right away after the key.</td></tr><tr><td><strong>JSON</strong></td><td>0x02</td><td>Value is encoded in JSON format. The value is composed by a <a href="../definitions.md">varint</a> (specifying total payload size) + the custom JSON payload.</td></tr><tr><td><strong>Reserved</strong></td><td><p>0x03  </p><p>to 0x06</p></td><td>Reserved for future usage.</td></tr><tr><td><strong>Negotiated</strong></td><td>0x07</td><td>Value is encoded in the negotiated encoding format (see <a href="../messages/connect.md">Connect Message</a>). The value is composed by a <a href="../definitions.md">varint</a> (specifying total value size) + the custom encoded payload. </td></tr></tbody></table>
 
 {% hint style="info" %}
 It is preferred to use PSON encoding format when possible, as it reduces encoding/decoding complexity, and reduces overall bandwidth.

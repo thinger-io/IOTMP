@@ -16,21 +16,15 @@ With the `Start Stream` there is also a `Stream Id`, but it is kept until the St
 
 ### Header
 
-| Field            | Value                                 | Description              |
-| ---------------- | ------------------------------------- | ------------------------ |
-| **Message Type** | 0x08                                  | Start Stream             |
-| **Message Size** | [varint](../../definitions.md#varint) | Remaining Message Length |
+<table><thead><tr><th width="165">Field</th><th width="76.33333333333331">Value</th><th>Description</th></tr></thead><tbody><tr><td><strong>Message Type</strong></td><td>0x08</td><td>Start Stream</td></tr><tr><td><strong>Message Size</strong></td><td><a href="../../definitions.md#varint">varint</a></td><td>Remaining Message Length</td></tr></tbody></table>
 
 ### Body
 
-<table><thead><tr><th>Name</th><th>Field</th><th data-type="select">Type</th><th data-type="checkbox">Mandatory</th><th>Description</th></tr></thead><tbody><tr><td><strong>Resource</strong> </td><td>0x00</td><td></td><td>true</td><td>A string with the resource name or a numeric value with the resource identifier.</td></tr><tr><td><strong>Stream Id</strong></td><td>0x01</td><td></td><td>true</td><td>Stream identifier to be used within the stream life-time.</td></tr><tr><td><strong>Parameters</strong></td><td>0x02</td><td></td><td>false</td><td>Start stream parameters.</td></tr><tr><td><strong>Payload</strong></td><td>0x03</td><td></td><td>false</td><td>Start stream payload.</td></tr></tbody></table>
+<table><thead><tr><th width="147">Name</th><th width="76">Field</th><th width="89">Type<select><option value="3d49da89b71b499a80437b39847316bb" label="any" color="blue"></option><option value="c8a9c9a9a79041a7b6d8b6641035a863" label="varint" color="blue"></option></select></th><th width="119" data-type="checkbox">Mandatory</th><th>Description</th></tr></thead><tbody><tr><td><strong>Resource</strong> </td><td>0x00</td><td><span data-option="3d49da89b71b499a80437b39847316bb">any</span></td><td>true</td><td>A string with the resource name or a numeric value with the resource identifier.</td></tr><tr><td><strong>Stream Id</strong></td><td>0x01</td><td><span data-option="c8a9c9a9a79041a7b6d8b6641035a863">varint</span></td><td>true</td><td>Stream identifier to be used within the stream life-time.</td></tr><tr><td><strong>Parameters</strong></td><td>0x02</td><td><span data-option="3d49da89b71b499a80437b39847316bb">any</span></td><td>false</td><td>Start stream parameters.</td></tr><tr><td><strong>Payload</strong></td><td>0x03</td><td><span data-option="3d49da89b71b499a80437b39847316bb">any</span></td><td>false</td><td>Start stream payload.</td></tr></tbody></table>
 
 ## Response
 
-| Message                          | Description                                                                                                                                                                                                      |
-| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ****[**Ok**](../ok.md)****       | Should answer with an OK if it is able to stream the requested resource with the specified parameters. It must contain the Stream Id specified in this message.                                                  |
-| ****[**Error**](../error.md)**** | Should answer with an Error if the target resource cannot be streamed both if the resource does not exists or the provided parameters are unacceptable. It must contain the Stream Id specified in this message. |
+<table><thead><tr><th width="116">Message</th><th>Description</th></tr></thead><tbody><tr><td><a href="../ok.md"><strong>Ok</strong></a></td><td>Should answer with an OK if it is able to stream the requested resource with the specified parameters. It must contain the Stream Id specified in this message.</td></tr><tr><td><a href="../error.md"><strong>Error</strong></a></td><td>Should answer with an Error if the target resource cannot be streamed both if the resource does not exists or the provided parameters are unacceptable. It must contain the Stream Id specified in this message.</td></tr></tbody></table>
 
 
 

@@ -8,10 +8,7 @@ description: Message to keep the connection alive
 
 ## Header
 
-| Field            | Value | Description |
-| ---------------- | ----- | ----------- |
-| **Message Type** | 0x05  | Keep Alive  |
-| **Message Size** | 0x00  | No body     |
+<table><thead><tr><th width="183.33333333333331">Field</th><th width="116">Value</th><th>Description</th></tr></thead><tbody><tr><td><strong>Message Type</strong></td><td>0x05</td><td>Keep Alive</td></tr><tr><td><strong>Message Size</strong></td><td>0x00</td><td>No body</td></tr></tbody></table>
 
 ## Body
 
