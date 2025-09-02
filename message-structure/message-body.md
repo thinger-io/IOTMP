@@ -40,22 +40,9 @@ The following wire types are supported by default inside IOTMP:&#x20;
 
 ### Wire Type
 
-The wire type specifies the format used for encoding each data field. IOTMP relies on [JSON](https://www.json.org/) format or its derivates, so, different JSON encoding formats can be supported on an IOTMP server, i.e., JSON, PSON, MessagePack, CBOR, etc. This way, different client implementations can choose the preferred encoding format, according to their needs, library availability, etc. The default encoding formats that an IOTMP server MUST support are [PSON](https://www.mdpi.com/1424-8220/21/13/4559), and JSON.
+The IOTMP protocol currently supports two primary wire types, Varint and [PSON](https://www.mdpi.com/1424-8220/21/13/4559), which are designed to efficiently encode data. The Varint type is optimized for storing positive integers, used mainly on protocol identifiers, while the PSON type is intended for encoding data structures in a more complex format. This approach allows for adaptable data transmission across various devices in IoT ecosystems.
 
-An IOTMP client MUST support at least one of the default formats: PSON or JSON. It is always preferred PSON encoding, as it can improve the overall performance by reducing serialization and deserialization complexity, and reduces bandwidth with a more compact representation. JSON encoding can be used by convenience, i.e., when running IOTMP inside a browser.
-
-By default, IOTMP specifies 4 different wire types:
-
-* **Varint (0x00)**: Indicates that the value holds an integer encoded as [varint](../definitions.md#varint).
-* **PSON (0x01)**: Indicates that the value holds a JSON encoded with PSON.
-* **JSON (0x02)**: Indicates that the value holds a JSON without any binary encoding.
-* **Negotiated (0x07)**: Indicates that the value holds a JSON encoded with a negotiated binary representation, i.e., MessagePack, CBOR, UBJSON.
-
-<table><thead><tr><th width="185.33333333333331">Type</th><th width="79">Value</th><th>Used For</th></tr></thead><tbody><tr><td><strong>Varint</strong></td><td>0x00</td><td>Positive number encoded as <a href="../definitions.md#varint">varint</a>. It is heavily used in the protocol for specifying fields like the stream identifier.</td></tr><tr><td><strong>PSON</strong></td><td>0x01</td><td>Value is encoded in PSON format. As PSON supports streaming decoding, the payload is encoded right away after the key.</td></tr><tr><td><strong>JSON</strong></td><td>0x02</td><td>Value is encoded in JSON format. The value is composed by a <a href="../definitions.md">varint</a> (specifying total payload size) + the custom JSON payload.</td></tr><tr><td><strong>Reserved</strong></td><td><p>0x03  </p><p>to 0x06</p></td><td>Reserved for future usage.</td></tr><tr><td><strong>Negotiated</strong></td><td>0x07</td><td>Value is encoded in the negotiated encoding format (see <a href="../messages/connect.md">Connect Message</a>). The value is composed by a <a href="../definitions.md">varint</a> (specifying total value size) + the custom encoded payload. </td></tr></tbody></table>
-
-{% hint style="info" %}
-It is preferred to use PSON encoding format when possible, as it reduces encoding/decoding complexity, and reduces overall bandwidth.
-{% endhint %}
+<table><thead><tr><th width="185.33333333333331">Type</th><th width="103.41796875">Value</th><th>Used For</th></tr></thead><tbody><tr><td><strong>Varint</strong></td><td>0x00</td><td>Positive number encoded as <a href="../definitions.md#varint">varint</a>. It is heavily used in the protocol for specifying fields like the stream identifier.</td></tr><tr><td><strong>PSON</strong></td><td>0x01</td><td>Value is encoded in <a href="https://www.mdpi.com/1424-8220/21/13/4559">PSON</a> format. As PSON supports streaming decoding, the payload is encoded right away after the key.</td></tr><tr><td>Reserved</td><td>0x02 - 0x06</td><td>Reserved for future use</td></tr></tbody></table>
 
 ### Field Identifier
 
