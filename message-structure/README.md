@@ -4,17 +4,17 @@ description: IOTMP Message Structure
 
 # Message Structure
 
-The IOTMP protocol works by exchanging a series of IOTMP messages in a defined way. This section describes the format of these packets.
+IOTMP communication is based on the exchange of structured messages between clients and servers. Each IOT **message** is composed of two main parts:
 
-Each IOTMP message contains a **header** and an optional **body:**
+1. **Header** – mandatory, contains metadata about the message type and the size of its payload.
+2. **Body (Payload)** – optional, contains the actual data being transmitted.
 
-* The **header** is a part of a message that contains information about the type of message and the size of the data being transmitted.
-* The message **body**, also known as the payload, is the portion of a message that contains the actual data being transmitted. It follows the header and contains the information that the sender intends to send to the receiver. The size of the message body is specified in the header and can be used to determine the total size of the packet.
+The general structure is:
 
-|               Message Structure               |
-| :-------------------------------------------: |
-| Message Header, present in all IOTMP messages |
-|  Message Body, present in some IOTMP messages |
+|                          Message Structure                         |
+| :----------------------------------------------------------------: |
+| [Message Header](message-header.md), present in all IOTMP messages |
+|   [Message Body](message-body.md), present in some IOTMP messages  |
 
 
 

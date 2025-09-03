@@ -4,51 +4,72 @@ description: IOTMP Message Body
 
 # Message Body
 
-The message **body**, also known as the payload, is the portion of a message that contains the actual data being transmitted. It follows the header and contains the information that the sender intends to send to the receiver.
+The **message body** (payload) contains the actual data transmitted between client and server. It directly follows the header and its size is defined by the **Message Size** field.
 
-## Key-Value Pairs
+The body is composed of a sequence of **key–value pairs**, which provide a flexible and extensible way to encode data.
 
-Each IOTMP message consists basically on a series of `key-value` pairs. When a message is encoded, the keys and values are concatenated into a byte stream. When the message is decoded, the parser needs to be able to skip fields that it doesn't recognize. This way, new fields can be added to a message without breaking old programs that do not know about them. To this end, the "key" for each pair in a wire-format message is actually two values – the field number according to each message definition, plus a [Wire-Type](message-body.md#wire-type), that provides just enough information to find the length of the following value.
+### Key–Value Pairs
 
-So, the message body is composed of a variable number of fields, each one with a key-value pair:
+Each message body consists of zero or more **key–value pairs**, concatenated into a byte stream.
 
-<table><thead><tr><th width="96.33333333333331">Field</th><th width="76">Type</th><th>Description</th></tr></thead><tbody><tr><td><a href="message-body.md#key"><strong>Key</strong></a></td><td><a href="../definitions.md#varint">varint</a></td><td>Specifies the field identifier and the value type.</td></tr><tr><td><a href="message-body.md#value"><strong>Value</strong></a></td><td><a href="../definitions.md#any">any</a></td><td>Contains the actual payload of the field.</td></tr></tbody></table>
+* **Keys** identify the field and how its value is encoded.
+* **Values** hold the actual data.
+* Parsers must be able to **skip unrecognized keys**, ensuring forward compatibility: new fields can be added without breaking older implementations.
 
-## Key
+<table><thead><tr><th width="96.33333333333331">Field</th><th width="76">Type</th><th>Description</th></tr></thead><tbody><tr><td><a href="message-body.md#key"><strong>Key</strong></a></td><td><a href="../definitions.md#varint">varint</a></td><td>Encodes both the field identifier and the wire type.</td></tr><tr><td><a href="message-body.md#value"><strong>Value</strong></a></td><td><a href="../definitions.md#any">any</a></td><td>Contains the actual payload of the field.</td></tr></tbody></table>
 
-Each key in the message is a [varint](../definitions.md#varint) that encodes both the **Field Identifier**, and the **Wire type**.&#x20;
+### Key
 
-A **Field Identifier** represents just the field for each specific message, i.e., if the value is related with a stream identifier, a parameter, or a payload.
+A **Key** is encoded as a **varint** that combines two elements:
 
-The **Wire Type** specifies how the value is encoded over the wire, as each body value can be encoded in different formats depending on the client and server implementation.
+1. **Field Identifier** – specifies the meaning of the field (e.g., stream ID, parameter, payload).
+2. **Wire Type** – specifies how the value is encoded on the wire.
 
-Then, a **Key** (with both Field Identifier and Wire Type) is encoded as a [varint](../definitions.md#varint), where the first 3 bits indicates the [Wire-Type](message-body.md#wire-type), and the 4 remaining bits indicates the [Field Identifier](../definitions.md#field-identifier). This schema is described below:
-
-```
-[1-bit][4-bit field identifier][3-bit with wire type] 
-```
-
-For example, a key with a wire-type (0) and a field identifier (1) would be encoded as the following:
+The binary layout of a key is:
 
 ```
-[0][0001][000] 
+[continuation bit][field identifier (4 bits)][wire type (3 bits)]
 ```
 
-It is possible to use a [varint](../definitions.md#varint) of two or more bytes in order to extend the field identifier. But in general terms, one byte covers up to 2^4 (16) Field Identifiers, and up to 2^3 (8) Wire Types, that should be enough for most use-cases.
+* **4-bit Field Identifier** → up to 16 unique fields per message (extendable with multi-byte varints).
+* **3-bit Wire Type** → up to 8 encoding formats.
+* **Continuation bit** → allows extending the field identifier beyond 4 bits.
 
-The following wire types are supported by default inside IOTMP:&#x20;
+**Example:**\
+A key with wire type `0` (Varint) and field identifier `1` is encoded as:
 
-### Wire Type
+```
+[0][0001][000]
+```
 
-The IOTMP protocol currently supports two primary wire types, Varint and [PSON](https://www.mdpi.com/1424-8220/21/13/4559), which are designed to efficiently encode data. The Varint type is optimized for storing positive integers, used mainly on protocol identifiers, while the PSON type is intended for encoding data structures in a more complex format. This approach allows for adaptable data transmission across various devices in IoT ecosystems.
+This compact scheme ensures efficient encoding while allowing future extensibility.
 
-<table><thead><tr><th width="185.33333333333331">Type</th><th width="103.41796875">Value</th><th>Used For</th></tr></thead><tbody><tr><td><strong>Varint</strong></td><td>0x00</td><td>Positive number encoded as <a href="../definitions.md#varint">varint</a>. It is heavily used in the protocol for specifying fields like the stream identifier.</td></tr><tr><td><strong>PSON</strong></td><td>0x01</td><td>Value is encoded in <a href="https://www.mdpi.com/1424-8220/21/13/4559">PSON</a> format. As PSON supports streaming decoding, the payload is encoded right away after the key.</td></tr><tr><td>Reserved</td><td>0x02 - 0x06</td><td>Reserved for future use</td></tr></tbody></table>
+#### Wire Type
 
-### Field Identifier
+The **Wire Type** specifies how the value associated with a key is encoded on the wire. It is encoded in the **3 least significant bits** of the key varint.
 
-The field identifier depends on each message, so, each one specifies their own message identifiers, as described [here](../messages/).
+Currently, IOTMP defines the following wire types:
 
-## Value
+<table><thead><tr><th width="185.33333333333331">Type</th><th width="103.41796875">Value</th><th>Used For</th></tr></thead><tbody><tr><td><strong>Varint</strong></td><td>0x00</td><td>Positive integers encoded as varint. Commonly used for protocol identifiers (e.g., stream ID).</td></tr><tr><td><strong>PSON</strong></td><td>0x01</td><td>Structured data encoded in PSON. Supports streaming decoding, allowing the payload to be read immediately after the key.</td></tr><tr><td>Reserved</td><td>0x02 - 0x06</td><td>Reserved for future extensions.</td></tr></tbody></table>
 
-Each field with a key has an associated value that can be encoded in different formats, according to the specification provided on the [Wire-Type](message-body.md#wire-type).
+This design allows IOTMP to support both **lightweight numeric values** (varint) and **complex data structures** (PSON), while keeping room for additional encodings in the future.
 
+#### Field Identifier
+
+The **Field Identifier** specifies the role of the field within a message.
+
+* Encoded in the **4 bits** of the key (plus additional bytes if extended).
+* Determines the semantic meaning of the value (e.g., stream identifier, parameter, payload).
+* Each message definition specifies its own set of valid field identifiers.
+
+This allows different message types to reuse the same encoding scheme while defining their own unique fields.
+
+### Value
+
+The **Value** represents the actual payload associated with a key.
+
+* Its encoding is determined by the **Wire Type**.
+* Can be a simple integer (varint) or a structured object (PSON).
+* Parsers must be able to skip values they do not recognize, preserving forward compatibility.
+
+Values are placed in the message body **immediately after their key**, enabling compact and efficient encoding.
